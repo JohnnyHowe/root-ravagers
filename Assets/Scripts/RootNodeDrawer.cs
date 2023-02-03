@@ -39,6 +39,7 @@ public class RootNodeDrawer : MonoBehaviour
             }
             LineRenderer renderer = _GetLineRenderer(i);
             renderer.positionCount = positions.Count;
+            positions.Reverse();
             renderer.SetPositions(positions.ToArray());
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RootController : MonoBehaviour
 {
+    [Header("Generation Behaviour")]
     public float MasterSpeedMultiplier = 1f;
     public float GrowSpeedSeconds = 1;
     private float _timeUntilNextGrowthSeconds = 0;
@@ -13,7 +14,11 @@ public class RootController : MonoBehaviour
     public FloatRange NewOriginTimeSeconds = new FloatRange(1, 5);
     private float _timeUntilNextOriginSeconds = 0;
 
+    public float MaxAngle = 90;
+
+    [Header("Boring Things")]
     public int MaxSearchRootDepth = 100;
+    public FloatRange ZRange = new FloatRange(0, -1);
     private List<RootNode> _leaves;
 
     void Awake()
@@ -138,8 +143,23 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetNextNodePosition(RootNode parent)
     {
+        float lastAngleFromNorth;
+        if (parent.IsOrigin) {
+            lastAngleFromNorth = 180;
+        } else {
+            lastAngleFromNorth = Vector3.SignedAngle(Vector3.up, parent.Position - parent.Parent.Position, Vector3.forward);
+        }
+
+        float angleChange = Random.Range(-90f, 90f);
+        float nextAngleFromNorth = lastAngleFromNorth + angleChange;
+
+        if (nextAngleFromNorth >= 270) nextAngleFromNorth = 270;
+        if (nextAngleFromNorth >= -90 && nextAngleFromNorth <= 0) nextAngleFromNorth = 270;
+        if (nextAngleFromNorth >= 0 && nextAngleFromNorth <= 90) nextAngleFromNorth = 90;
+
+
         // TODO smarter pos choice - angles maybe?
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 0), 0).normalized;
+        Vector3 dir = new Vector3(Random.Range(-1f, 1f), ZRange.RandomInRange(), 0).normalized;
         return parent.Position + dir * NodeDistance.RandomInRange();
     }
 }
