@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RootNode
 {
-    public RootNode parent;
+    public RootNode Parent;
+    public RootNode Child;
     public Vector3 Position;
 }

@@ -4,7 +4,23 @@ using UnityEngine;
 
 public class RootController : MonoBehaviour
 {
-    public List<RootNode> GetRootNodes() {
+    public Vector3 TestNodes;
+
+    public List<RootNode> GetOriginRootNodes() {
         return new List<RootNode>();
+    }
+
+    public List<RootNode> GetAllRootNodes()
+    {
+        return new List<RootNode>();
+    }
+
+    void Update()
+    {
+        _DrawRoots();
+    }
+
+    private void _DrawRoots() {
+
     }
 }
