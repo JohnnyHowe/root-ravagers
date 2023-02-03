@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class AntController : MonoBehaviour
 {
-
-
+    private const float WaypointHitTolerance = 0.1f;
     public List<AntGroup> AntGroups = new List<AntGroup>();
 
     public Waypoint WaypointPrefab;
@@ -39,9 +38,9 @@ public class AntController : MonoBehaviour
             // Move the object towards the mouse
             closestAnt.transform.position += direction * Speed * Time.deltaTime;
 
-            if (delta.magnitude < 1)
+            if (delta.magnitude < WaypointHitTolerance)
             {
-                Destroy(firstWaypoint);
+                Destroy(firstWaypoint.gameObject);
                 _waypoints.Remove(firstWaypoint);
             }
         }

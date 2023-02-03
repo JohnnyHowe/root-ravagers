@@ -155,7 +155,7 @@ MonoBehaviour:
   AntGroups:
   - {fileID: 618804660}
   WaypointPrefab: {fileID: 3126245652653186982, guid: 38d00ddd10f870b45843be1fea46231d, type: 3}
-  Speed: 1
+  Speed: 3
 --- !u!4 &346260925
 Transform:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ Transform:
   m_GameObject: {fileID: 618804659}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.15962164, y: 0.04189978, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
