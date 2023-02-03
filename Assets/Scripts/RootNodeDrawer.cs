@@ -36,6 +36,7 @@ public class RootNodeDrawer : MonoBehaviour
             LineRenderer renderer = Instantiate(RendererPrototype);
             renderer.gameObject.SetActive(true);
             renderer.transform.parent = RendererPrototype.transform.parent;
+            renderer.sortingOrder = i;
             _lineRenderers.Add(renderer);
         }
         return _lineRenderers[i];
