@@ -125,7 +125,7 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetValidOriginPosition()
     {
-        return new Vector3(Random.Range(-5f, 5f), 0, 0);
+        return new Vector3(Random.Range(-10f, 10f), 0, Random.Range(0, -1f));
     }
 
     private RootNode _CreateNewNode(RootNode parent)
