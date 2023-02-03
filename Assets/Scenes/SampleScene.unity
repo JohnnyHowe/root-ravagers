@@ -402,14 +402,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e8e4629d835da43bd58d65bbda0fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MasterSpeedMultiplier: 10
+  MasterSpeedMultiplier: 5
   GrowSpeedSeconds: 1
   NodeDistance:
-    Min: 0.1
-    Max: 0.5
+    Min: 1
+    Max: 2
   NewOriginTimeSeconds:
-    Min: 10
-    Max: 50
+    Min: 1
+    Max: 5
   MaxSearchRootDepth: 100
 --- !u!114 &1698704922
 MonoBehaviour:
@@ -441,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1727500188
 Transform:
   m_ObjectHideFlags: 0
@@ -513,19 +513,19 @@ LineRenderer:
   - {x: -0.8881097, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.4
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.25877196
-        inSlope: 0
-        outSlope: 0
+        value: 0.19512194
+        inSlope: 1.7926828
+        outSlope: 1.7926828
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.14285713
       - serializedVersion: 3
         time: 1
         value: 1
