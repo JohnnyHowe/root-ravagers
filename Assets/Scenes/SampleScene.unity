@@ -159,7 +159,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.24528301, g: 0.1669083, b: 0.100658596, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -253,9 +253,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e8e4629d835da43bd58d65bbda0fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GrowSpeedSeconds: 1
+  NodeDistance:
+    Min: 0.1
+    Max: 0.5
+  NewOriginTimeSeconds:
+    Min: 1
+    Max: 5
   MaxSearchRootDepth: 100
-  Leaves:
-  - Position: {x: 0, y: 0, z: 0}
 --- !u!114 &1698704922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,7 +290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1727500188
 Transform:
   m_ObjectHideFlags: 0
@@ -348,7 +353,7 @@ LineRenderer:
   - {x: 0, y: -2, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
