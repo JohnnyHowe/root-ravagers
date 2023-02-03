@@ -28,7 +28,7 @@ public class RootController : MonoBehaviour
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
             if (_timeUntilNextGrowthSeconds <= 0)
             {
-                int leafIndex = (int) Mathf.Min(_leaves.Count - 1, Random.Range(0f, _leaves.Count));
+                int leafIndex = (int)Mathf.Min(_leaves.Count - 1, Random.Range(0f, _leaves.Count));
                 _CreateNewNode(_leaves[leafIndex]);
                 _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
             }
@@ -50,11 +50,6 @@ public class RootController : MonoBehaviour
     // ===========================================================================================
     // Public Methods
     // ===========================================================================================
-
-    public List<RootNode> GetAllRootNodes()
-    {
-        return new List<RootNode>();
-    }
 
     public List<RootNode> GetLeaves()
     {
@@ -84,6 +79,34 @@ public class RootController : MonoBehaviour
             paths.Add(path);
         }
         return paths;
+    }
+
+    /// <summary>
+    /// Get a list of interactable nodes
+    /// Is just all nodes that are not origin or leaf
+    /// </summary>
+    public List<RootNode> GetInteractableNodes()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetLeaves())
+        {
+            RootNode currentNode = leaf;
+
+            int iteration = 0;
+            while (!currentNode.IsOrigin)
+            {
+                iteration++;
+                if (iteration > MaxSearchRootDepth)
+                {
+                    Debug.LogError("Max root search depth exceeded, probably a cycle");
+                    break;
+                }
+
+                currentNode = currentNode.Parent;
+                if (!currentNode.IsOrigin) nodes.Add(currentNode);
+            }
+        }
+        return nodes;
     }
 
     // ===========================================================================================
