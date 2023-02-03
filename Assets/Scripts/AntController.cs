@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +11,6 @@ public class AntController : MonoBehaviour
 
     private List<Waypoint> _waypoints = new List<Waypoint>();
 
-    private bool _mouse1Down = false;
 
     public float Speed = 1f;
     // Start is called before the first frame update
@@ -24,34 +22,45 @@ public class AntController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleInput();
+        HandleAntMovingToWaypoints();
+    }
 
-        if (_waypoints.Any())
+    private void HandleAntMovingToWaypoints()
+    {
+        if (!_waypoints.Any())
         {
-            var firstWaypoint = _waypoints.First();
-            Vector3 mousePosition = GetMousePosition();
+            return;
+        }
+        var firstWaypoint = _waypoints.First();
+        Vector3 mousePosition = GetMousePosition();
 
-            var closestAnt = GetClosestAnt(mousePosition);
+        var closestAnt = GetClosestAnt(mousePosition);
 
-            Vector3 delta = firstWaypoint.transform.position - closestAnt.transform.position;
-            Vector3 direction = delta.normalized;
+        Vector3 delta = firstWaypoint.transform.position - closestAnt.transform.position;
+        Vector3 direction = delta.normalized;
 
-            // Move the object towards the mouse
-            closestAnt.transform.position += direction * Speed * Time.deltaTime;
+        closestAnt.transform.position += direction * Speed * Time.deltaTime;
 
-            if (delta.magnitude < WaypointHitTolerance)
-            {
-                Destroy(firstWaypoint.gameObject);
-                _waypoints.Remove(firstWaypoint);
-            }
+        if (delta.magnitude < WaypointHitTolerance)
+        {
+            Destroy(firstWaypoint.gameObject);
+            _waypoints.Remove(firstWaypoint);
+        }
+    }
+
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _waypoints.ForEach(waypoint => Destroy(waypoint.gameObject));
+            _waypoints.Clear();
         }
 
-
-        var mouse1Down = Input.GetMouseButton(1);
-        if (mouse1Down && !_mouse1Down)
+        if (Input.GetMouseButtonDown(1))
         {
             OnMouseDown();
         }
-        _mouse1Down = mouse1Down;
     }
 
     private Vector3 GetMousePosition()
@@ -64,14 +73,6 @@ public class AntController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //GameObject newWaypointObject = new GameObject($"waypoint{_waypoints.Count}", typeof(Waypoint));
-
-        //var newWaypoint = newWaypointObject.GetComponent<Waypoint>();
-
-        //_waypoints.Add(newWaypoint);
-
-        //newWaypointObject.transform.position = GetMousePosition();
-
         Vector3 mousePosition = GetMousePosition();
         var newWaypoint = Instantiate(WaypointPrefab, mousePosition, Quaternion.identity);
         if (_waypoints.Count > 0)
