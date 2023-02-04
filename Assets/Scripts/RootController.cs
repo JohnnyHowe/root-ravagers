@@ -10,6 +10,7 @@ public class RootController : MonoBehaviour
     private float _timeUntilNextGrowthSeconds;
 
     public FloatRange NodeDistance = new FloatRange(0.2f, 1);
+    public float ForkChance = 0.2f;
 
     public FloatRange NewOriginTimeSeconds = new FloatRange(1, 5);
     private float _timeUntilNextOriginSeconds;
@@ -39,7 +40,15 @@ public class RootController : MonoBehaviour
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
             if (_timeUntilNextGrowthSeconds <= 0)
             {
-                List<RootNode> leavesWithOrigins = _GetLeavesWithOrigin();
+                List<RootNode> leavesWithOrigins;
+                if (Random.Range(0f, 1f) < ForkChance)
+                {
+                    leavesWithOrigins = GetAllNodesWithOrigin();
+                }
+                else
+                {
+                    leavesWithOrigins = GetLeavesWithOrigin();
+                }
 
                 if (leavesWithOrigins.Count > 0)
                 {
@@ -176,10 +185,20 @@ public class RootController : MonoBehaviour
         }
     }
 
-    public List<RootNode> _GetLeavesWithOrigin()
+    public List<RootNode> GetLeavesWithOrigin()
     {
         List<RootNode> nodes = new List<RootNode>();
         foreach (RootNode leaf in GetLeaves())
+        {
+            if (leaf.HasOrigin) nodes.Add(leaf);
+        }
+        return nodes;
+    }
+
+    public List<RootNode> GetAllNodesWithOrigin()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetAllRootNodes())
         {
             if (leaf.HasOrigin) nodes.Add(leaf);
         }
@@ -238,7 +257,10 @@ public class RootController : MonoBehaviour
         // Add parent to leaves
         if (!node.IsOrphan)
         {
-            if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
+            if (_GetChildren(node.Parent).Count == 1)
+            {
+                if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
+            }
         }
     }
 
