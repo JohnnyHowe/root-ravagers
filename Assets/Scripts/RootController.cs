@@ -114,6 +114,10 @@ public class RootController : MonoBehaviour
         return nodes;
     }
 
+    public void DoThing(RootNode node, RootAction action) {
+        
+    }
+
     // ===========================================================================================
     // Root generation/growth
     // ===========================================================================================
