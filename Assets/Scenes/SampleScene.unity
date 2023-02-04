@@ -327,7 +327,7 @@ MonoBehaviour:
     Min: 1
     Max: 5
   MaxAngle: 90
-  OriginY: 5
+  OriginY: 7
   MaxSearchRootDepth: 100
   ZRange:
     Min: 0
