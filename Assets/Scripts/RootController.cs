@@ -143,23 +143,8 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetNextNodePosition(RootNode parent)
     {
-        float lastAngleFromNorth;
-        if (parent.IsOrigin) {
-            lastAngleFromNorth = 180;
-        } else {
-            lastAngleFromNorth = Vector3.SignedAngle(Vector3.up, parent.Position - parent.Parent.Position, Vector3.forward);
-        }
-
-        float angleChange = Random.Range(-90f, 90f);
-        float nextAngleFromNorth = lastAngleFromNorth + angleChange;
-
-        if (nextAngleFromNorth >= 270) nextAngleFromNorth = 270;
-        if (nextAngleFromNorth >= -90 && nextAngleFromNorth <= 0) nextAngleFromNorth = 270;
-        if (nextAngleFromNorth >= 0 && nextAngleFromNorth <= 90) nextAngleFromNorth = 90;
-
-
-        // TODO smarter pos choice - angles maybe?
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), ZRange.RandomInRange(), 0).normalized;
+        float r = Random.Range(-1f, 1f);
+        Vector3 dir = new Vector3(r, r - 1, ZRange.RandomInRange()).normalized;
         return parent.Position + dir * NodeDistance.RandomInRange();
     }
 }
