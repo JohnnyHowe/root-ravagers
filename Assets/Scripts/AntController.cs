@@ -5,6 +5,7 @@ using UnityEngine;
 public class AntController : MonoBehaviour
 {
     private const float WaypointHitTolerance = 0.1f;
+    public float CuttingTime = 2.0f;
     public List<AntGroup> AntGroups = new List<AntGroup>();
 
     public Waypoint WaypointPrefab;
@@ -13,7 +14,7 @@ public class AntController : MonoBehaviour
 
     private List<Waypoint> _waypoints = new List<Waypoint>();
 
-    public float Speed = 1f;
+    public float Speed = 10f;
 
     private Waypoint _cutting;
 
@@ -72,7 +73,7 @@ public class AntController : MonoBehaviour
                 if (firstWaypoint.Target != null)
                 {
                     _cutting = firstWaypoint;
-                    _cuttingTimeRemaining = 1.0f;
+                    _cuttingTimeRemaining = CuttingTime;
                 } else
                 {
                     Destroy(firstWaypoint.gameObject);

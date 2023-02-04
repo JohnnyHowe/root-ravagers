@@ -258,6 +258,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4353260330521106704, guid: b7810e72a6960f24da75fb9ca237fd6e, type: 3}
+      propertyPath: Speed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353260330521106704, guid: b7810e72a6960f24da75fb9ca237fd6e, type: 3}
+      propertyPath: CuttingTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353260330521106704, guid: b7810e72a6960f24da75fb9ca237fd6e, type: 3}
       propertyPath: _rootController
       value: 
       objectReference: {fileID: 918696462}
