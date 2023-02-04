@@ -18,6 +18,7 @@ public class RootController : MonoBehaviour
     public float OriginY = 5f;
 
     [Header("Boring Things")]
+    public float MaxX = 5f;
     public int MaxSearchRootDepth = 100;
     public FloatRange ZRange = new FloatRange(0, -1);
     private List<RootNode> _leaves;
@@ -145,7 +146,7 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetValidOriginPosition()
     {
-        return new Vector3(Random.Range(-10f, 10f), OriginY, ZRange.RandomInRange());
+        return _ClampX(new Vector3(Random.Range(-10f, 10f), OriginY, ZRange.RandomInRange()));
     }
 
     private RootNode _CreateNewNode(RootNode parent)
@@ -160,7 +161,7 @@ public class RootController : MonoBehaviour
     {
         float r = Random.Range(-1f, 1f);
         Vector3 dir = new Vector3(r, r - 1, 0).normalized;
-        return parent.Position + dir * NodeDistance.RandomInRange();
+        return _ClampX(parent.Position + dir * NodeDistance.RandomInRange());
     }
 
     private void _RemoveNode(RootNode node)
@@ -207,5 +208,15 @@ public class RootController : MonoBehaviour
             }
         }
         return nodes;
+    }
+
+    private Vector3 _ClampX(Vector3 position) {
+        Vector3 p = position;
+        p.x = _ClampX(p.x);
+        return p;
+    }
+
+    private float _ClampX(float unclampedX) {
+        return Mathf.Clamp(unclampedX, -MaxX, MaxX);
     }
 }
