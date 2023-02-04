@@ -21,6 +21,7 @@ public class RootNode : Interactable
     {
         return Position;
     }
+    public void TryMoveItem(Vector3 n) { }
 
     public RootNode Parent;
     public Vector3 Position;

@@ -13,6 +13,10 @@ public abstract class PowerUp : MonoBehaviour, Interactable
     }
 
     public void OnTaskComplete() { }
+    public void TryMoveItem(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+    }
     public Vector3 GetLocation()
     {
         return transform.position;

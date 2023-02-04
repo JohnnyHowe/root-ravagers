@@ -12,6 +12,7 @@ public class AntController : MonoBehaviour
     public RootController _rootController;
     public GameController _gameController;
     public float Speed = 10f;
+    public Interactable ItemHeld = null;
 
     private List<Waypoint> _waypoints = new List<Waypoint>();
     private const float WaypointHitTolerance = 0.1f;
@@ -35,6 +36,8 @@ public class AntController : MonoBehaviour
         var firstWaypoint = _waypoints.First();
         AntGroup antGroup = GetAntGroup();
         Vector3 delta = firstWaypoint.transform.position - antGroup.transform.position;
+
+        ItemHeld?.TryMoveItem(antGroup.transform.position);
 
         if (delta.magnitude > WaypointHitTolerance)
         {
@@ -99,13 +102,26 @@ public class AntController : MonoBehaviour
 
         newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
 
-        if (node.GetTaskTypes().Contains(TaskType.Cut))
+        List<TaskType> taskTypes = node.GetTaskTypes();
+        if (ItemHeld == null)
         {
-            newWaypoint.Task = CreateCuttingAction(node);
+            // No item held
+            if (taskTypes.Contains(TaskType.Cut))
+            {
+                newWaypoint.Task = CreateCuttingAction(node);
+            }
+            else if (taskTypes.Contains(TaskType.Pickup))
+            {
+                newWaypoint.Task = _CreatePickupTask(node);
+            }
         }
-        else if (node.GetTaskTypes().Contains(TaskType.Pickup))
+        else
         {
-            newWaypoint.Task = _CreatePickupTask(node);
+            // item held
+            if (taskTypes.Contains(TaskType.Use))
+            {
+                newWaypoint.Task = _CreateUseTask(node);
+            }
         }
     }
 
@@ -113,6 +129,20 @@ public class AntController : MonoBehaviour
     {
         Task task = new Task();
         task.TypeOfTask = TaskType.Pickup;
+        task.Position = interactable.GetLocation();
+        task.Target = interactable;
+        task.PerformAction = () =>
+        {
+            ItemHeld = interactable;
+            return true;
+        };
+        return task;
+    }
+
+    private Task _CreateUseTask(Interactable interactable)
+    {
+        Task task = new Task();
+        task.TypeOfTask = TaskType.Use;
         task.Position = interactable.GetLocation();
         task.Target = interactable;
         return task;
