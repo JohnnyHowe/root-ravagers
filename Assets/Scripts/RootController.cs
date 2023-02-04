@@ -194,7 +194,7 @@ public class RootController : MonoBehaviour
             nodes.Add(currentNode);
 
             int iteration = 0;
-            while (!currentNode.IsOrigin)
+            while (!currentNode.IsOrphan)
             {
                 iteration++;
                 if (iteration > MaxSearchRootDepth)
