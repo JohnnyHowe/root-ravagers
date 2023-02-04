@@ -9,6 +9,8 @@ public class AntController : MonoBehaviour
 
     public Waypoint WaypointPrefab;
 
+    public RootController _rootController;
+
     private List<Waypoint> _waypoints = new List<Waypoint>();
 
 
@@ -16,6 +18,7 @@ public class AntController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _rootController = GameObject.FindObjectOfType<RootController>();
 
     }
 
@@ -74,17 +77,36 @@ public class AntController : MonoBehaviour
     private void OnMouseDown()
     {
         Vector3 mousePosition = GetMousePosition();
+        var node = GetNodeInRange(mousePosition);
+
         var newWaypoint = Instantiate(WaypointPrefab, mousePosition, Quaternion.identity);
+
+        if (node != null)
+        {
+            newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
+        }
         if (_waypoints.Count > 0)
         {
             var last = _waypoints.Last();
-            var relativeLastPosition = newWaypoint.transform.worldToLocalMatrix.MultiplyPoint(last.transform.position);
             newWaypoint.Line.positionCount = 2;
             newWaypoint.Line.SetPositions(new[] { last.transform.position, newWaypoint.transform.position });
         }
         _waypoints.Add(newWaypoint);
+    }
 
+    private RootNode GetNodeInRange(Vector3 mousePosition)
+    {
+        var nodes = _rootController.GetInteractableNodes();
 
+        foreach (var node in nodes)
+        {
+            var distance = (mousePosition - node.Position).magnitude;
+            if (distance < 0.1)
+            {
+                return node;
+            }
+        }
+        return null;
     }
 
     private AntGroup GetClosestAnt(Vector3 mousePosition)
