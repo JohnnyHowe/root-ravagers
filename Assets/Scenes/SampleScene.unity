@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e8e4629d835da43bd58d65bbda0fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MasterSpeedMultiplier: 5
+  MasterSpeedMultiplier: 1
   GrowSpeedSeconds: 1
   NodeDistance:
     Min: 1
@@ -327,6 +327,8 @@ MonoBehaviour:
     Min: 1
     Max: 5
   MaxAngle: 90
+  OriginY: 7
+  MaxX: 7
   MaxSearchRootDepth: 100
   ZRange:
     Min: 4
