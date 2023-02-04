@@ -44,8 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39c5bbf4db403e4891b69a84f566f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxAttackRange: 3
+  CuttingTime: 2
   AntGroups:
   - {fileID: 0}
   WaypointPrefab: {fileID: 3126245652653186982, guid: 38d00ddd10f870b45843be1fea46231d, type: 3}
   _rootController: {fileID: 0}
   Speed: 3
+  NumberOfAnts: 10
+  AntPrefab: {fileID: 0}
