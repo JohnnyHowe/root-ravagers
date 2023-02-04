@@ -13,6 +13,7 @@ public class AntController : MonoBehaviour
     public GameController _gameController;
     public float Speed = 10f;
     public Interactable ItemHeld = null;
+    public Interactable ItemThatWillBeHeld;
     public int NumberOfAnts = 10;
     public Ant AntPrefab;
 
@@ -112,10 +113,11 @@ public class AntController : MonoBehaviour
     {
         Interactable node = GetClosestNode(GetMousePosition(), MaxAttackRange);
 
-        if (node == null && ItemHeld == null) return;
+        if (node == null && ItemThatWillBeHeld == null) return;
         if (node == null)
         {
-            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemHeld, GetMousePosition());
+            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
+            ItemThatWillBeHeld = null;
             return;
         }
 
@@ -123,7 +125,8 @@ public class AntController : MonoBehaviour
 
         if (taskTypes.Contains(TaskType.Cut) && ItemHeld != null)
         {
-            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemHeld, GetMousePosition());
+            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
+            ItemThatWillBeHeld = null;
             return;
         }
 
@@ -131,7 +134,7 @@ public class AntController : MonoBehaviour
 
         newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
 
-        if (ItemHeld == null)
+        if (ItemThatWillBeHeld == null)
         {
             // No item held
             if (taskTypes.Contains(TaskType.Cut))
@@ -141,6 +144,7 @@ public class AntController : MonoBehaviour
             else if (taskTypes.Contains(TaskType.Pickup))
             {
                 newWaypoint.Task = _CreatePickupTask(node);
+                ItemThatWillBeHeld = node;
             }
         }
         else
@@ -149,6 +153,7 @@ public class AntController : MonoBehaviour
             if (taskTypes.Contains(TaskType.Use))
             {
                 newWaypoint.Task = _CreateUseTask(node);
+                ItemThatWillBeHeld = null;
             }
         }
     }
