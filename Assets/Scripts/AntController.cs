@@ -96,20 +96,18 @@ public class AntController : MonoBehaviour
     private void OnAntAttack()
     {
         Interactable node = GetClosestNode(GetMousePosition(), MaxAttackRange);
-        if (node == null)
-        {
-            if (ItemHeld == null) return;
+        if (node == null && ItemHeld == null) return;
+        List<TaskType> taskTypes = node.GetTaskTypes();
 
-            var dropWayPoint = CreateWaypoint(GetMousePosition());
-            dropWayPoint.Task = _CreateDropTask(ItemHeld, GetMousePosition());
-            return;
+        if (taskTypes.Contains(TaskType.Cut) && ItemHeld != null)
+        {
+            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemHeld, GetMousePosition());
         }
 
         var newWaypoint = CreateWaypoint(node.GetLocation());
 
         newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
 
-        List<TaskType> taskTypes = node.GetTaskTypes();
         if (ItemHeld == null)
         {
             // No item held
