@@ -13,6 +13,8 @@ public class AntController : MonoBehaviour
     public GameController _gameController;
     public float Speed = 10f;
     public Interactable ItemHeld = null;
+    public int NumberOfAnts = 10;
+    public Ant AntPrefab;
 
     private List<Waypoint> _waypoints = new List<Waypoint>();
     private const float WaypointHitTolerance = 0.1f;
@@ -21,6 +23,11 @@ public class AntController : MonoBehaviour
     {
         _rootController = FindObjectOfType<RootController>();
         _gameController = FindObjectOfType<GameController>();
+
+        for (var i = 0; i < NumberOfAnts; i++)
+        {
+            Instantiate(AntPrefab, transform);
+        }
     }
 
     void Update()
