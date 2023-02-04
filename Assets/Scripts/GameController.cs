@@ -11,6 +11,14 @@ public class GameController : MonoBehaviour
     private PowerUpManager _powerUpManager;
     private bool _gameOver = false;
     public float DifficultyInceaseSpeed = 1f;
+    private float _maxNutrients;
+    public float NutrientsDecimal {
+        get => Nutrients / _maxNutrients;
+    }
+
+    void Awake() {
+        _maxNutrients = Nutrients;
+    }
 
     void Start()
     {
