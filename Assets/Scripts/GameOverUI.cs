@@ -54,12 +54,31 @@ public class GameOverUI : MonoBehaviour
         string currentUserName = "CURRENTUSER1234567890";
         int currentScore = (int)_gameController.Score;
         highScores[currentUserName] = currentScore;
-        
+
+        highScores["aa"] = -1;
+        highScores["ab"] = 2;
+        highScores["ac"] = 3;
+        highScores["aw"] = 3;
+        highScores["a1"] = 3;
+        highScores["a2"] = 3;
+        highScores["a3"] = 3;
+        highScores["a4"] = 3;
+        highScores["a5"] = 3;
+        highScores["a6"] = 3;
+        highScores["a7"] = 3;
+        highScores["a9"] = 3;
+        highScores["a8"] = 3;
+        highScores["ae"] = 10;
+        highScores["ar"] = 3;
+        highScores["aj"] = 6;
+
+        int rank = 1;
         foreach (var (name, score) in highScores.OrderBy(a => -a.Value))
         {
             Transform highScoreEntryUI = _GetNewHighScoreEntry();
             highScoreEntryUI.GetChild(1).GetComponent<TextMeshProUGUI>().text = name;
             highScoreEntryUI.GetChild(2).GetComponent<TextMeshProUGUI>().text = score.ToString();
+            highScoreEntryUI.GetChild(4).GetComponent<TextMeshProUGUI>().text = "#" + rank.ToString();
             if (name == currentUserName && score == currentScore)
             {
                 highScoreEntryUI.GetChild(3).gameObject.SetActive(true);
@@ -70,6 +89,7 @@ public class GameOverUI : MonoBehaviour
             {
                 highScoreEntryUI.GetChild(3).gameObject.SetActive(false);
             }
+            rank ++;
         }
     }
 
