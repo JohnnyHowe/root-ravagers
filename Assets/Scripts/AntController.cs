@@ -50,7 +50,7 @@ public class AntController : MonoBehaviour
         {
             // Move towards waypoint
             Vector3 direction = delta.normalized;
-            antGroup.transform.position += direction * Speed * Time.deltaTime;
+            antGroup.transform.position += direction * Mathf.Clamp(Speed * Time.deltaTime, 0, delta.magnitude);
         }
         else
         {
