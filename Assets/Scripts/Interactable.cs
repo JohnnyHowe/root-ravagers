@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+
+
 public interface Interactable
 {
-    TaskType GetTaskType();
+    List<TaskType> GetTaskTypes();
 }
