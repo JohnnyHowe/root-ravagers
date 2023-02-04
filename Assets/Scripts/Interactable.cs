@@ -1,1 +1,4 @@
-public interface Interactable { }
+public interface Interactable
+{
+    TaskType GetTaskType();
+}
