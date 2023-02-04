@@ -130,7 +130,7 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetValidOriginPosition()
     {
-        return new Vector3(Random.Range(-10f, 10f), 0, Random.Range(0, -1f));
+        return new Vector3(Random.Range(-10f, 10f), 0, ZRange.RandomInRange());
     }
 
     private RootNode _CreateNewNode(RootNode parent)
@@ -144,7 +144,7 @@ public class RootController : MonoBehaviour
     private Vector3 _GetNextNodePosition(RootNode parent)
     {
         float r = Random.Range(-1f, 1f);
-        Vector3 dir = new Vector3(r, r - 1, ZRange.RandomInRange()).normalized;
+        Vector3 dir = new Vector3(r, r - 1, 0).normalized;
         return parent.Position + dir * NodeDistance.RandomInRange();
     }
 }
