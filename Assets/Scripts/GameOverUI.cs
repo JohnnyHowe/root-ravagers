@@ -53,7 +53,6 @@ public class GameOverUI : MonoBehaviour
         currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
         _persistence.Data.Scores[inputField.text] = (int)_gameController.Score;
         _persistence.Save();
-
     }
 
     public void OnReplayPress()
