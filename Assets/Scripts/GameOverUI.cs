@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameOverUI : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameOverUI : MonoBehaviour
     private bool _scoresPopulated = false;
     private Persistence _persistence;
     Transform currentUserHighScoreEntry;
+    public Color CurrentUserHighScoreEntryColor = Color.green;
 
     void Start()
     {
@@ -83,6 +85,7 @@ public class GameOverUI : MonoBehaviour
             {
                 highScoreEntryUI.GetChild(3).gameObject.SetActive(true);
                 highScoreEntryUI.GetChild(1).gameObject.SetActive(false);
+                highScoreEntryUI.GetChild(0).GetComponent<Image>().color = CurrentUserHighScoreEntryColor;
                 currentUserHighScoreEntry = highScoreEntryUI;
             }
             else

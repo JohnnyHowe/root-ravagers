@@ -1924,6 +1924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIContainer: {fileID: 2622520485858558948}
   HighScoreEntryPrototype: {fileID: 986232006}
+  CurrentUserHighScoreEntryColor: {r: 1, g: 0.75642526, b: 0.36477983, a: 1}
 --- !u!1 &2622520487062051062
 GameObject:
   m_ObjectHideFlags: 0
