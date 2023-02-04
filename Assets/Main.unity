@@ -341,7 +341,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1085137579}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1e8e4629d835da43bd58d65bbda0fce, type: 3}
   m_Name: 
@@ -356,7 +356,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: MasterSpeedMultiplier

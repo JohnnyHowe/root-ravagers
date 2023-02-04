@@ -12,7 +12,15 @@ public class PowerUpManager : MonoBehaviour
 
     public List<PowerUp> GetAvailablePowerUps()
     {
-        return InstantiatedPowerUps;
+        List<PowerUp> availablePowerUps = new List<PowerUp>();
+        foreach (PowerUp p in InstantiatedPowerUps)
+        {
+            if (p.IsAvailable)
+            {
+                availablePowerUps.Add(p);
+            }
+        }
+        return availablePowerUps;
     }
 
     void Awake()
@@ -46,7 +54,8 @@ public class PowerUpManager : MonoBehaviour
 
     private bool _ShouldSpawnPowerUp()
     {
-        if (_timeUntilPowerUpSpawn < 0) {
+        if (_timeUntilPowerUpSpawn < 0)
+        {
             _timeUntilPowerUpSpawn += PowerUpSpawnPeriod;
             return true;
         }

@@ -25,6 +25,7 @@ public class Explosive : PowerUp
 
     void Update()
     {
+        IsAvailable = !Armed;
         _UpdateColor();
 
         if (!Armed) return;
@@ -36,10 +37,15 @@ public class Explosive : PowerUp
         }
     }
 
-    private void _Explode() {
-        foreach (RootNode rootNode in _rootController.GetAllRootNodes()) {
-            if ((rootNode.Position - transform.position).magnitude < DamageRadius) {
+    private void _Explode()
+    {
+        int rootDamageCount = 0;
+        foreach (RootNode rootNode in _rootController.GetAllRootNodes())
+        {
+            if ((rootNode.Position - transform.position).magnitude < DamageRadius)
+            {
                 _rootController.RemoveNode(rootNode);
+                rootDamageCount++;
             }
         }
         Instantiate(ExplosionEffect).transform.position = transform.position;
@@ -59,8 +65,9 @@ public class Explosive : PowerUp
             Renderer.color = PreExplosionColor;
         }
     }
-    
-    public override void OnTaskComplete() {
+
+    public override void OnTaskComplete()
+    {
         Armed = true;
     }
 }

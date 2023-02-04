@@ -94,8 +94,6 @@ public class RootController : MonoBehaviour
         return nodes;
     }
 
-
-
     public List<RootNode> GetLeaves()
     {
         return _leaves;
@@ -158,8 +156,10 @@ public class RootController : MonoBehaviour
 
     public void DoThing(Interactable interactable, RootAction action)
     {
-        foreach (RootNode node in GetAllRootNodes()) {
-            if (node.Position == interactable.GetLocation()) {
+        foreach (RootNode node in GetAllRootNodes())
+        {
+            if (node.Position == interactable.GetLocation())
+            {
                 DoThing(node, action);
                 return;
             }
@@ -222,8 +222,12 @@ public class RootController : MonoBehaviour
 
     public void RemoveNode(RootNode node)
     {
+        // Is node even known about?
+        List<RootNode> children = _GetChildren(node);
+        if (children.Count == 0) return;
+
         // Remove all references to node from children
-        foreach (RootNode child in _GetChildren(node))
+        foreach (RootNode child in children)
         {
             child.Parent = null;
         }
