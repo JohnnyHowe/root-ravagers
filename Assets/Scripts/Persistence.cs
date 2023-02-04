@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +7,14 @@ using UnityEngine;
 
 public class Persistence : MonoBehaviour
 {
-    [System.NonSerialized]
+    [NonSerialized]
     public Data Data;
+
+    private string _path;
     // Start is called before the first frame update
     void Start()
     {
+        _path = Path.Join(Application.persistentDataPath, "data.json");
         Load();
         //Print();
     }
@@ -39,20 +43,16 @@ public class Persistence : MonoBehaviour
 
     public void Save()
     {
-        File.WriteAllText(GetPath(), JsonUtility.ToJson(Data));
-    }
-
-    private static string GetPath()
-    {
-        return Path.Join(Application.persistentDataPath, "data.json");
+        string json = JsonConvert.SerializeObject(Data, Formatting.Indented);
+        File.WriteAllText(_path, json);
     }
 
     public void Load()
     {
         try
         {
-            string json = File.ReadAllText(GetPath());
-            Data = JsonUtility.FromJson<Data>(json);
+            string json = File.ReadAllText(_path);
+            Data = JsonConvert.DeserializeObject<Data>(json);
         } catch (Exception e)
         {
             Debug.LogWarning(e.Message);
@@ -61,7 +61,7 @@ public class Persistence : MonoBehaviour
     }
 }
 
-
+[Serializable]
 public class Data
 {
     public Dictionary<string, int> Scores = new();
