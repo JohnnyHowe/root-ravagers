@@ -20,4 +20,8 @@ public class GameOverUI : MonoBehaviour
             UIContainer.gameObject.SetActive(true);
         }
     }
+
+    public void OnReplayPress()
+    {
+    }
 }
