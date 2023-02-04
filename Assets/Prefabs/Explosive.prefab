@@ -138,3 +138,4 @@ MonoBehaviour:
   ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}
   PreExplosionColor: {r: 0, g: 0, b: 0, a: 1}
   PreExplosionColorTime: 0.5
+  ExplosionEffect: {fileID: 7352423846639781544, guid: bad4d9d0ef5e063478197e953f9c0b6d, type: 3}

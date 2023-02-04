@@ -40,9 +40,13 @@ public class RootController : MonoBehaviour
             if (_timeUntilNextGrowthSeconds <= 0)
             {
                 List<RootNode> leavesWithOrigins = _GetLeavesWithOrigin();
-                int leafIndex = (int)Mathf.Min(leavesWithOrigins.Count - 1, Random.Range(0f, leavesWithOrigins.Count));
-                _CreateNewNode(leavesWithOrigins[leafIndex]);
-                _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
+
+                if (leavesWithOrigins.Count > 0)
+                {
+                    int leafIndex = (int)Mathf.Min(leavesWithOrigins.Count - 1, Random.Range(0f, leavesWithOrigins.Count));
+                    _CreateNewNode(leavesWithOrigins[leafIndex]);
+                    _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
+                }
             }
 
             // New origins?

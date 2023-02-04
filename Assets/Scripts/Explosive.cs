@@ -14,6 +14,7 @@ public class Explosive : MonoBehaviour
     public Color ArmedFadeColor = Color.red;
     public Color PreExplosionColor = Color.black;
     public float PreExplosionColorTime = 0.5f;
+    public GameObject ExplosionEffect;
     private RootController _rootController;
 
     void Start()
@@ -41,6 +42,7 @@ public class Explosive : MonoBehaviour
                 _rootController.RemoveNode(rootNode);
             }
         }
+        Instantiate(ExplosionEffect).transform.position = transform.position;
         Destroy(gameObject);
     }
 
