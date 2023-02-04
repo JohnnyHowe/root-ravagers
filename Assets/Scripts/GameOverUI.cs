@@ -51,7 +51,13 @@ public class GameOverUI : MonoBehaviour
         inputField.gameObject.SetActive(false);
         currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
         currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
-        _persistence.Data.Scores[inputField.text] = (int)_gameController.Score;
+
+        string userName = inputField.text;
+        if (userName == null || userName.Length == 0) {
+            userName = "Unnamed Queen #" + Random.Range(0, 1000);
+        }
+
+        _persistence.Data.Scores[userName] = (int)_gameController.Score;
         _persistence.Save();
     }
 
