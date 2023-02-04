@@ -13,6 +13,6 @@ public class GameUI : MonoBehaviour
 
     void Update()
     {
-        NutrientsText.text = _gameController.Nutrients.ToString();
+        NutrientsText.text = Mathf.RoundToInt(_gameController.Nutrients).ToString();
     }
 }
