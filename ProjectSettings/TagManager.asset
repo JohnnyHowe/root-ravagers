@@ -41,12 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Waypoint
-    uniqueID: 1494391279
+  - name: Root
+    uniqueID: 4203475891
     locked: 0
   - name: Ant
     uniqueID: 3589103029
     locked: 0
-  - name: Root
-    uniqueID: 4203475891
+  - name: Waypoint
+    uniqueID: 1494391279
     locked: 0
