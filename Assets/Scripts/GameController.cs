@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -33,5 +33,11 @@ public class GameController : MonoBehaviour
     public bool IsGameOver()
     {
         return _gameOver;
+    }
+
+    public List<Interactable> GetInteractables()
+    {
+        // TODO
+        return new List<Interactable>();
     }
 }
