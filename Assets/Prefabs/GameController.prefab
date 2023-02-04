@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77b31ab302c8d943be6aeb2fde7218d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Nutrients: 0
+  Nutrients: 100
   NutrientsY: -6
   SuccSpeed: 10
