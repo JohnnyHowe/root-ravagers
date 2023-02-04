@@ -7,12 +7,12 @@ public class RootController : MonoBehaviour
     [Header("Generation Behaviour")]
     public float MasterSpeedMultiplier = 1f;
     public float GrowSpeedSeconds = 1;
-    private float _timeUntilNextGrowthSeconds = 0;
+    private float _timeUntilNextGrowthSeconds;
 
     public FloatRange NodeDistance = new FloatRange(0.2f, 1);
 
     public FloatRange NewOriginTimeSeconds = new FloatRange(1, 5);
-    private float _timeUntilNextOriginSeconds = 0;
+    private float _timeUntilNextOriginSeconds;
 
     public float MaxAngle = 90;
 
@@ -24,10 +24,13 @@ public class RootController : MonoBehaviour
     void Awake()
     {
         _leaves = new List<RootNode>();
+        _timeUntilNextGrowthSeconds = GrowSpeedSeconds;
+        _timeUntilNextOriginSeconds = NewOriginTimeSeconds.RandomInRange();
     }
 
     void Update()
     {
+        return;
         if (_leaves.Count > 0)
         {
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
@@ -71,7 +74,7 @@ public class RootController : MonoBehaviour
             path.Add(currentNode);
 
             int iteration = 0;
-            while (!currentNode.IsOrigin)
+            while (!currentNode.IsOrphan)
             {
                 if (iteration > MaxSearchRootDepth)
                 {
@@ -95,6 +98,8 @@ public class RootController : MonoBehaviour
         List<RootNode> nodes = new List<RootNode>();
         foreach (RootNode leaf in GetLeaves())
         {
+            if (!leaf.HasOrigin) continue;
+
             RootNode currentNode = leaf;
 
             int iteration = 0;
@@ -114,8 +119,14 @@ public class RootController : MonoBehaviour
         return nodes;
     }
 
-    public void DoThing(RootNode node, RootAction action) {
-        
+    public void DoThing(RootNode node, RootAction action)
+    {
+        switch (action)
+        {
+            case RootAction.Cut:
+                _RemoveNode(node);
+                break;
+        }
     }
 
     // ===========================================================================================
@@ -127,7 +138,7 @@ public class RootController : MonoBehaviour
     /// </summary>
     private RootNode _StartNewOrigin()
     {
-        RootNode node = new RootNode(_GetValidOriginPosition(), null);
+        RootNode node = new RootNode(_GetValidOriginPosition(), null, true);
         _leaves.Add(node);
         return node;
     }
@@ -139,7 +150,7 @@ public class RootController : MonoBehaviour
 
     private RootNode _CreateNewNode(RootNode parent)
     {
-        RootNode node = new RootNode(_GetNextNodePosition(parent), parent);
+        RootNode node = new RootNode(_GetNextNodePosition(parent), parent, false);
         _leaves.Remove(parent);
         _leaves.Add(node);
         return node;
@@ -150,5 +161,51 @@ public class RootController : MonoBehaviour
         float r = Random.Range(-1f, 1f);
         Vector3 dir = new Vector3(r, r - 1, 0).normalized;
         return parent.Position + dir * NodeDistance.RandomInRange();
+    }
+
+    private void _RemoveNode(RootNode node)
+    {
+        foreach (RootNode child in _GetChildren(node)) {
+            child.Parent = null;
+        }
+        if (!node.IsOrphan) {
+            if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
+        }
+    }
+
+    private List<RootNode> _GetChildren(RootNode parent)
+    {
+        List<RootNode> children = new List<RootNode>();
+        foreach (RootNode node in _GetAllRootNodes()) {
+            if (parent == node.Parent) {
+                children.Add(node);
+            }
+        }
+        return children;
+    }
+
+    private List<RootNode> _GetAllRootNodes()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetLeaves())
+        {
+            RootNode currentNode = leaf;
+            nodes.Add(currentNode);
+
+            int iteration = 0;
+            while (!currentNode.IsOrigin)
+            {
+                iteration++;
+                if (iteration > MaxSearchRootDepth)
+                {
+                    Debug.LogError("Max root search depth exceeded, probably a cycle");
+                    break;
+                }
+
+                currentNode = currentNode.Parent;
+                nodes.Add(currentNode);
+            }
+        }
+        return nodes;
     }
 }
