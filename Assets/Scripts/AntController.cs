@@ -19,6 +19,8 @@ public class AntController : MonoBehaviour
     private List<Waypoint> _waypoints = new List<Waypoint>();
     private const float WaypointHitTolerance = 0.1f;
 
+    public Interactable TargetedInteractable;
+
     void Start()
     {
         _rootController = FindObjectOfType<RootController>();
@@ -34,6 +36,12 @@ public class AntController : MonoBehaviour
     {
         HandleInput();
         HandleAntMovingToWaypoints();
+        _UpdateTargetedInteractable();
+    }
+
+    private void _UpdateTargetedInteractable()
+    {
+        TargetedInteractable = GetClosestNode(GetMousePosition(), MaxAttackRange);
     }
 
     private void HandleAntMovingToWaypoints()
