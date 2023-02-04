@@ -47,11 +47,13 @@ public class AntController : MonoBehaviour
                 Destroy(_cutting.gameObject);
                 _waypoints.Remove(_cutting);
                 _cutting = null;
-            } else
+            }
+            else
             {
                 closestAnt.transform.position = _cutting.Target.Position + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
             }
-        } else
+        }
+        else
         {
             if (!_waypoints.Any())
             {
@@ -81,7 +83,7 @@ public class AntController : MonoBehaviour
                 }
             }
         }
-        
+
 
     }
 
@@ -106,13 +108,8 @@ public class AntController : MonoBehaviour
 
     private void OnAntAttack()
     {
-        Vector3 mousePosition = GetMousePosition();
-        var node = GetNodeInRange(mousePosition);
-
-        if (node == null)
-        {
-            return;
-        }
+        var node = GetTargetedNode(GetMousePosition());
+        if (node == null) return;
 
         var position = node.Position;
         position.z = transform.position.z;
@@ -157,7 +154,8 @@ public class AntController : MonoBehaviour
         mousePosition.z = transform.position.z;
         return mousePosition;
     }
-    private RootNode GetNodeInRange(Vector3 mousePosition)
+
+    private RootNode GetTargetedNode(Vector3 mousePosition)
     {
         var nodes = _rootController.GetInteractableNodes();
         float closest = float.PositiveInfinity;
