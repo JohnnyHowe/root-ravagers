@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 0}
   WaypointPrefab: {fileID: 3126245652653186982, guid: 38d00ddd10f870b45843be1fea46231d, type: 3}
   _rootController: {fileID: 0}
+  _gameController: {fileID: 0}
   Speed: 3
   NumberOfAnts: 10
-  AntPrefab: {fileID: 0}
+  AntPrefab: {fileID: 4137875700753006860, guid: 1c87828c02c55ea4d81efb064ec16d51, type: 3}
