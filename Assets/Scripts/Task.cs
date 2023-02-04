@@ -1,1 +1,3 @@
-public class Task {}
+public class Task {
+
+}
