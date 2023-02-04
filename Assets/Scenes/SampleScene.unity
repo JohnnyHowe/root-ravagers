@@ -328,6 +328,7 @@ MonoBehaviour:
     Max: 5
   MaxAngle: 90
   OriginY: 7
+  RootDecayPeriod: 1
   MaxX: 7
   MaxSearchRootDepth: 100
   ZRange:
