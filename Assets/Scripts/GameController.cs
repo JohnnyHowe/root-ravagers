@@ -7,11 +7,13 @@ public class GameController : MonoBehaviour
     public float NutrientsY = -6f;
     public float SuccSpeed = 0.1f;
     private RootController _rootController;
+    private PowerUpManager _powerUpManager;
     private bool _gameOver = false;
 
     void Start()
     {
         _rootController = GameObject.FindObjectOfType<RootController>();
+        _powerUpManager = GameObject.FindObjectOfType<PowerUpManager>();
     }
 
     void Update()
@@ -39,6 +41,7 @@ public class GameController : MonoBehaviour
     {
         List<Interactable> interactables = new List<Interactable>();
         foreach (Interactable interactable in _rootController.GetInteractableNodes()) interactables.Add(interactable);
+        foreach (Interactable interactable in _powerUpManager.GetAvailablePowerUps()) interactables.Add(interactable);
         return interactables;
     }
 }

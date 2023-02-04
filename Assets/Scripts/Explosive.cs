@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosive : MonoBehaviour
+public class Explosive : PowerUp
 {
     public SpriteRenderer Renderer;
     public float TimeUntilExplosion = 3;
@@ -58,5 +58,9 @@ public class Explosive : MonoBehaviour
         {
             Renderer.color = PreExplosionColor;
         }
+    }
+    
+    public override void OnTaskComplete() {
+        Armed = true;
     }
 }
