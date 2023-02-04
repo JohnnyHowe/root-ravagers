@@ -16,6 +16,7 @@ public class RootNode : Interactable
         return new List<TaskType> { TaskType.Cut, TaskType.Use };
     }
 
+    public bool DestroyMe = false;
     public RootNode Parent;
     public Vector3 Position;
     public bool IsOrigin;

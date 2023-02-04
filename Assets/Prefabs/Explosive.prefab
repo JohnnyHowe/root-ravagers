@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110862752750205293}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.15, y: 0.08, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.8150835, y: 1.8150835, z: 1.8150835}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,6 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 110862753644224773}
+  - component: {fileID: 8147839847447665120}
   m_Layer: 0
   m_Name: Explosive
   m_TagString: Untagged
@@ -114,5 +115,26 @@ Transform:
   m_Children:
   - {fileID: 110862752750205292}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8147839847447665120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110862753644224774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2b256be8053c4da71c75f0246df8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 110862752750205283}
+  TimeUntilExplosion: 3
+  ExplosionCountdown: 0
+  Armed: 1
+  DamageRadius: 3
+  PassiveColor: {r: 1, g: 1, b: 1, a: 1}
+  ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}
+  PreExplosionColor: {r: 0, g: 0, b: 0, a: 1}
+  PreExplosionColorTime: 0.5

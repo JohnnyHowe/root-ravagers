@@ -64,6 +64,34 @@ public class RootController : MonoBehaviour
     // Public Methods
     // ===========================================================================================
 
+
+    public List<RootNode> GetAllRootNodes()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetLeaves())
+        {
+            RootNode currentNode = leaf;
+            nodes.Add(currentNode);
+
+            int iteration = 0;
+            while (!currentNode.IsOrphan)
+            {
+                iteration++;
+                if (iteration > MaxSearchRootDepth)
+                {
+                    Debug.LogError("Max root search depth exceeded, probably a cycle");
+                    break;
+                }
+
+                currentNode = currentNode.Parent;
+                nodes.Add(currentNode);
+            }
+        }
+        return nodes;
+    }
+
+
+
     public List<RootNode> GetLeaves()
     {
         return _leaves;
@@ -129,7 +157,7 @@ public class RootController : MonoBehaviour
         switch (action)
         {
             case RootAction.Cut:
-                _RemoveNode(node);
+                RemoveNode(node);
                 break;
         }
     }
@@ -178,7 +206,7 @@ public class RootController : MonoBehaviour
         return _ClampX(parent.Position + dir * NodeDistance.RandomInRange());
     }
 
-    private void _RemoveNode(RootNode node)
+    public void RemoveNode(RootNode node)
     {
         // Remove all references to node from children
         foreach (RootNode child in _GetChildren(node))
@@ -199,7 +227,7 @@ public class RootController : MonoBehaviour
     private List<RootNode> _GetChildren(RootNode parent)
     {
         List<RootNode> children = new List<RootNode>();
-        foreach (RootNode node in _GetAllRootNodes())
+        foreach (RootNode node in GetAllRootNodes())
         {
             if (parent == node.Parent)
             {
@@ -207,31 +235,6 @@ public class RootController : MonoBehaviour
             }
         }
         return children;
-    }
-
-    private List<RootNode> _GetAllRootNodes()
-    {
-        List<RootNode> nodes = new List<RootNode>();
-        foreach (RootNode leaf in GetLeaves())
-        {
-            RootNode currentNode = leaf;
-            nodes.Add(currentNode);
-
-            int iteration = 0;
-            while (!currentNode.IsOrphan)
-            {
-                iteration++;
-                if (iteration > MaxSearchRootDepth)
-                {
-                    Debug.LogError("Max root search depth exceeded, probably a cycle");
-                    break;
-                }
-
-                currentNode = currentNode.Parent;
-                nodes.Add(currentNode);
-            }
-        }
-        return nodes;
     }
 
     private Vector3 _ClampX(Vector3 position)
@@ -258,8 +261,8 @@ public class RootController : MonoBehaviour
         {
             if (nodes[0].HasOrigin) continue;
 
-            _RemoveNode(nodes[nodes.Count - 1]);
-            _RemoveNode(nodes[0]);
+            RemoveNode(nodes[nodes.Count - 1]);
+            RemoveNode(nodes[0]);
         }
     }
 }
