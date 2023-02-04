@@ -37,7 +37,8 @@ public class GameController : MonoBehaviour
 
     public List<Interactable> GetInteractables()
     {
-        // TODO
-        return new List<Interactable>();
+        List<Interactable> interactables = new List<Interactable>();
+        foreach (Interactable interactable in _rootController.GetInteractableNodes()) interactables.Add(interactable);
+        return interactables;
     }
 }
