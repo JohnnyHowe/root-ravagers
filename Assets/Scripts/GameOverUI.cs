@@ -18,7 +18,7 @@ public class GameOverUI : MonoBehaviour
 
     void Start()
     {
-        // UIContainer.gameObject.SetActive(false);
+        UIContainer.gameObject.SetActive(false);
         _gameController = GameObject.FindObjectOfType<GameController>();
         _persistence = GameObject.FindObjectOfType<Persistence>();
         HighScoreEntryPrototype.gameObject.SetActive(false);
@@ -26,7 +26,7 @@ public class GameOverUI : MonoBehaviour
 
     void Update()
     {
-        // if (_gameController.IsGameOver() && !_scoresPopulated)
+        if (!_gameController.IsGameOver()) return;
         if (!_scoresPopulated)
         {
             _scoresPopulated = true;
