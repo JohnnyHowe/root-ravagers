@@ -48,7 +48,7 @@ public class AntController : MonoBehaviour
                 _cutting = null;
             } else
             {
-                closestAnt.transform.position = _cutting.Target.Position + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+                closestAnt.transform.position = _cutting.Target.Position + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
             }
         } else
         {
@@ -159,16 +159,19 @@ public class AntController : MonoBehaviour
     private RootNode GetNodeInRange(Vector3 mousePosition)
     {
         var nodes = _rootController.GetInteractableNodes();
+        float closest = float.PositiveInfinity;
+        RootNode closestNode = null;
 
         foreach (var node in nodes)
         {
             var distance = ((Vector2)(mousePosition - node.Position)).magnitude;
-            if (distance < 1f)
+            if (distance < closest)
             {
-                return node;
+                closestNode = node;
+                closest = distance;
             }
         }
-        return null;
+        return closestNode;
     }
 
     private AntGroup GetClosestAnt(Vector3 mousePosition)
