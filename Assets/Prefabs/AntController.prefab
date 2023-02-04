@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4353260330521106704
 MonoBehaviour:
@@ -54,3 +54,5 @@ MonoBehaviour:
   Speed: 3
   NumberOfAnts: 100
   AntPrefab: {fileID: 4137875700753006860, guid: 1c87828c02c55ea4d81efb064ec16d51, type: 3}
+  DropTaskColor: {r: 1, g: 0, b: 0, a: 0.50980395}
+  DefaultTaskColor: {r: 1, g: 1, b: 1, a: 0.48235294}

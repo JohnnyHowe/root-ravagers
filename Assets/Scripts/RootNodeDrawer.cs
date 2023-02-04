@@ -11,10 +11,14 @@ public class RootNodeDrawer : MonoBehaviour
     private List<SpriteRenderer> _interactableRenderers;
 
     private RootController _rootController;
+    private AntController _antController;
+    public float InteractableSize = 0.1f;
+    public float TargetInteractableSize = 2;
 
     void Start()
     {
         _rootController = GetComponent<RootController>();
+        _antController = GameObject.FindObjectOfType<AntController>();
         _lineRenderers = new List<LineRenderer>();
         _interactableRenderers = new List<SpriteRenderer>();
         RendererPrototype.gameObject.SetActive(false);
@@ -62,7 +66,14 @@ public class RootNodeDrawer : MonoBehaviour
         for (int i = 0; i < interactableNodes.Count; i++)
         {
             SpriteRenderer s = _GetInteractableSpriteRenderer(i);
-            s.gameObject.transform.SetPositionAndRotation(interactableNodes[i].Position, Quaternion.identity);
+            Vector3 p = interactableNodes[i].Position;
+            p.z = 0;
+            s.gameObject.transform.SetPositionAndRotation(p, Quaternion.identity);
+            if (_antController.TargetedInteractable == interactableNodes[i]) {
+                s.gameObject.transform.localScale = Vector3.one * TargetInteractableSize;
+            } else {
+                s.gameObject.transform.localScale = Vector3.one * InteractableSize;
+            }
         }
     }
 

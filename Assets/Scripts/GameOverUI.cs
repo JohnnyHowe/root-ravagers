@@ -36,13 +36,29 @@ public class GameOverUI : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
-            inputField.gameObject.SetActive(false);
-            currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
-            currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
-            _persistence.Data.Scores[inputField.text] = (int) _gameController.Score;
-            _persistence.Save();
+            Save();
         }
+    }
+
+    void OnDestroy()
+    {
+        Save();
+    }
+
+    private void Save()
+    {
+        TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
+        inputField.gameObject.SetActive(false);
+        currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
+        currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
+
+        string userName = inputField.text;
+        if (userName == null || userName.Length == 0) {
+            userName = "Unnamed Queen #" + Random.Range(0, 1000);
+        }
+
+        _persistence.Data.Scores[userName] = (int)_gameController.Score;
+        _persistence.Save();
     }
 
     public void OnReplayPress()
@@ -56,23 +72,6 @@ public class GameOverUI : MonoBehaviour
         string currentUserName = "CURRENTUSER1234567890";
         int currentScore = (int)_gameController.Score;
         highScores[currentUserName] = currentScore;
-
-        highScores["aa"] = -1;
-        highScores["ab"] = 2;
-        highScores["ac"] = 3;
-        highScores["aw"] = 3;
-        highScores["a1"] = 3;
-        highScores["a2"] = 3;
-        highScores["a3"] = 3;
-        highScores["a4"] = 3;
-        highScores["a5"] = 3;
-        highScores["a6"] = 3;
-        highScores["a7"] = 3;
-        highScores["a9"] = 3;
-        highScores["a8"] = 3;
-        highScores["ae"] = 10;
-        highScores["ar"] = 3;
-        highScores["aj"] = 6;
 
         int rank = 1;
         foreach (var (name, score) in highScores.OrderBy(a => -a.Value))
@@ -92,7 +91,7 @@ public class GameOverUI : MonoBehaviour
             {
                 highScoreEntryUI.GetChild(3).gameObject.SetActive(false);
             }
-            rank ++;
+            rank++;
         }
     }
 

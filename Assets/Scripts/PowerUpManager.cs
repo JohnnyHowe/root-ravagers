@@ -28,11 +28,6 @@ public class PowerUpManager : MonoBehaviour
         _timeUntilPowerUpSpawn = PowerUpSpawnPeriod;
     }
 
-    void Start()
-    {
-        _SpawnNewPowerUp();
-    }
-
     void Update()
     {
         if (_ShouldSpawnPowerUp())

@@ -98,5 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceMultiplyer: 1
-  MinSpeed: 4
-  Speed: 7
+  MinSpeed: 8
+  Speed: 28
