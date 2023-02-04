@@ -45,7 +45,14 @@ public class AntController : MonoBehaviour
 
     private void _UpdateTargetedInteractable()
     {
-        TargetedInteractable = GetClosestNode(GetMousePosition(), MaxAttackRange);
+        if (ItemThatWillBeHeld != null)
+        {
+            TargetedInteractable = null;
+        }
+        else
+        {
+            TargetedInteractable = GetClosestNode(GetMousePosition(), MaxAttackRange);
+        }
     }
 
     private void HandleAntMovingToWaypoints()
@@ -121,13 +128,13 @@ public class AntController : MonoBehaviour
         if (node == null)
         {
             CreateWaypoint(GetMousePosition(), TaskType.Use).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
-            ItemThatWillBeHeld = node;
+            ItemThatWillBeHeld = null;
             return;
         }
 
         List<TaskType> taskTypes = node.GetTaskTypes();
 
-        if (taskTypes.Contains(TaskType.Cut) && ItemHeld != null)
+        if (taskTypes.Contains(TaskType.Cut) && ItemThatWillBeHeld != null)
         {
             CreateWaypoint(GetMousePosition(), TaskType.Cut).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
             ItemThatWillBeHeld = null;
@@ -219,7 +226,8 @@ public class AntController : MonoBehaviour
             newWaypoint.Line.SetPositions(new[] { last.transform.position, newWaypoint.transform.position });
         }
 
-        switch (taskType) {
+        switch (taskType)
+        {
             case TaskType.Use:
                 newWaypoint.Renderer.color = DropTaskColor;
                 break;
