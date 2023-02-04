@@ -15,6 +15,7 @@ public class RootController : MonoBehaviour
     private float _timeUntilNextOriginSeconds;
 
     public float MaxAngle = 90;
+    public float OriginY = 5f;
 
     [Header("Boring Things")]
     public int MaxSearchRootDepth = 100;
@@ -30,7 +31,6 @@ public class RootController : MonoBehaviour
 
     void Update()
     {
-        return;
         if (_leaves.Count > 0)
         {
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
@@ -145,7 +145,7 @@ public class RootController : MonoBehaviour
 
     private Vector3 _GetValidOriginPosition()
     {
-        return new Vector3(Random.Range(-10f, 10f), 0, ZRange.RandomInRange());
+        return new Vector3(Random.Range(-10f, 10f), OriginY, ZRange.RandomInRange());
     }
 
     private RootNode _CreateNewNode(RootNode parent)
