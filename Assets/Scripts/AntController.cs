@@ -22,6 +22,9 @@ public class AntController : MonoBehaviour
 
     public Interactable TargetedInteractable;
 
+    public Color DropTaskColor = Color.red;
+    public Color DefaultTaskColor = Color.white;
+
     void Start()
     {
         _rootController = FindObjectOfType<RootController>();
@@ -106,6 +109,7 @@ public class AntController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             OnAntAttack();
+            Debug.Log(ItemThatWillBeHeld);
         }
     }
 
@@ -116,8 +120,8 @@ public class AntController : MonoBehaviour
         if (node == null && ItemThatWillBeHeld == null) return;
         if (node == null)
         {
-            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
-            ItemThatWillBeHeld = null;
+            CreateWaypoint(GetMousePosition(), TaskType.Use).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
+            ItemThatWillBeHeld = node;
             return;
         }
 
@@ -125,12 +129,12 @@ public class AntController : MonoBehaviour
 
         if (taskTypes.Contains(TaskType.Cut) && ItemHeld != null)
         {
-            CreateWaypoint(GetMousePosition()).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
+            CreateWaypoint(GetMousePosition(), TaskType.Cut).Task = _CreateDropTask(ItemThatWillBeHeld, GetMousePosition());
             ItemThatWillBeHeld = null;
             return;
         }
 
-        var newWaypoint = CreateWaypoint(node.GetLocation());
+        var newWaypoint = CreateWaypoint(node.GetLocation(), TaskType.Walk);
 
         newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
 
@@ -149,11 +153,11 @@ public class AntController : MonoBehaviour
         }
         else
         {
-            // item held
-            if (taskTypes.Contains(TaskType.Use))
+            // item held 
+            if (taskTypes.Contains(TaskType.Pickup))
             {
-                newWaypoint.Task = _CreateUseTask(node);
-                ItemThatWillBeHeld = null;
+                newWaypoint.Task = _CreatePickupTask(node);
+                ItemThatWillBeHeld = node;
             }
         }
     }
@@ -198,11 +202,11 @@ public class AntController : MonoBehaviour
 
     private void OnAntMove()
     {
-        var newWaypoint = CreateWaypoint(GetMousePosition());
+        var newWaypoint = CreateWaypoint(GetMousePosition(), TaskType.Walk);
         newWaypoint.Task = CreateWalkingAction();
     }
 
-    public Waypoint CreateWaypoint(Vector3 position)
+    public Waypoint CreateWaypoint(Vector3 position, TaskType taskType)
     {
         position.z = transform.position.z;
 
@@ -214,6 +218,16 @@ public class AntController : MonoBehaviour
             newWaypoint.Line.positionCount = 2;
             newWaypoint.Line.SetPositions(new[] { last.transform.position, newWaypoint.transform.position });
         }
+
+        switch (taskType) {
+            case TaskType.Use:
+                newWaypoint.Renderer.color = DropTaskColor;
+                break;
+            default:
+                newWaypoint.Renderer.color = DefaultTaskColor;
+                break;
+        }
+
         _waypoints.Add(newWaypoint);
         return newWaypoint;
     }

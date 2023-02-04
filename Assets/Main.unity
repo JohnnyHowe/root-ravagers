@@ -1283,6 +1283,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 703481092}
     m_Modifications:
     - target: {fileID: 4022806632754339400, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4022806632754339400, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
       propertyPath: PowerUpSpawnPeriod
       value: 5
       objectReference: {fileID: 0}
