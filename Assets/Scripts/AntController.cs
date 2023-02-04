@@ -40,6 +40,9 @@ public class AntController : MonoBehaviour
 
         var closestAnt = GetClosestAnt(mousePosition);
 
+        firstWaypoint.Line.positionCount = 2;
+        firstWaypoint.Line.SetPositions(new Vector3[] { firstWaypoint.transform.position, closestAnt.transform.position });
+
         Vector3 delta = firstWaypoint.transform.position - closestAnt.transform.position;
         Vector3 direction = delta.normalized;
 
@@ -47,6 +50,10 @@ public class AntController : MonoBehaviour
 
         if (delta.magnitude < WaypointHitTolerance)
         {
+            if (firstWaypoint.Target != null)
+            {
+                _rootController.DoThing(firstWaypoint.Target, RootAction.Cut);
+            }
             Destroy(firstWaypoint.gameObject);
             _waypoints.Remove(firstWaypoint);
         }
@@ -79,11 +86,16 @@ public class AntController : MonoBehaviour
         Vector3 mousePosition = GetMousePosition();
         var node = GetNodeInRange(mousePosition);
 
-        var newWaypoint = Instantiate(WaypointPrefab, mousePosition, Quaternion.identity);
+        var position = node?.Position ?? mousePosition;
+        mousePosition.z = transform.position.z;
+
+        var newWaypoint = Instantiate(WaypointPrefab, position, Quaternion.identity);
 
         if (node != null)
         {
             newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
+            newWaypoint.Target = node;
+
         }
         if (_waypoints.Count > 0)
         {
@@ -100,8 +112,8 @@ public class AntController : MonoBehaviour
 
         foreach (var node in nodes)
         {
-            var distance = (mousePosition - node.Position).magnitude;
-            if (distance < 0.1)
+            var distance = ((Vector2)(mousePosition - node.Position)).magnitude;
+            if (distance < 0.1f)
             {
                 return node;
             }

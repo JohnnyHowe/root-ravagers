@@ -155,6 +155,7 @@ MonoBehaviour:
   AntGroups:
   - {fileID: 618804660}
   WaypointPrefab: {fileID: 3126245652653186982, guid: 38d00ddd10f870b45843be1fea46231d, type: 3}
+  _rootController: {fileID: 0}
   Speed: 3
 --- !u!4 &346260925
 Transform:
@@ -239,8 +240,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -705864267
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
