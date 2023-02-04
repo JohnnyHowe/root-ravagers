@@ -262,6 +262,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4353260330521106704, guid: b7810e72a6960f24da75fb9ca237fd6e, type: 3}
+      propertyPath: AntPrefab
+      value: 
+      objectReference: {fileID: 4137875700753006860, guid: 1c87828c02c55ea4d81efb064ec16d51, type: 3}
+    - target: {fileID: 4353260330521106704, guid: b7810e72a6960f24da75fb9ca237fd6e, type: 3}
       propertyPath: CuttingTime
       value: 1
       objectReference: {fileID: 0}
