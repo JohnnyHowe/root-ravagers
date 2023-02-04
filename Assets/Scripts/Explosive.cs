@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosive : MonoBehaviour
+public class Explosive : PowerUp
 {
     public SpriteRenderer Renderer;
     public float TimeUntilExplosion = 3;

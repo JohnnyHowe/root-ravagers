@@ -156,6 +156,16 @@ public class RootController : MonoBehaviour
         return nodes;
     }
 
+    public void DoThing(Interactable interactable, RootAction action)
+    {
+        foreach (RootNode node in GetAllRootNodes()) {
+            if (node.Position == interactable.GetLocation()) {
+                DoThing(node, action);
+                return;
+            }
+        }
+    }
+
     public void DoThing(RootNode node, RootAction action)
     {
         switch (action)

@@ -132,7 +132,7 @@ MonoBehaviour:
   Renderer: {fileID: 110862752750205283}
   TimeUntilExplosion: 3
   ExplosionCountdown: 0
-  Armed: 1
+  Armed: 0
   DamageRadius: 3
   PassiveColor: {r: 1, g: 1, b: 1, a: 1}
   ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}

@@ -1,0 +1,20 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public abstract class PowerUp : MonoBehaviour, Interactable
+{
+    public List<TaskType> GetTaskTypes()
+    {
+        return new List<TaskType>() {
+            TaskType.Pickup,
+            TaskType.Use
+        };
+    }
+
+    public void OnTaskComplete() { }
+    public Vector3 GetLocation()
+    {
+        return transform.position;
+    }
+}
