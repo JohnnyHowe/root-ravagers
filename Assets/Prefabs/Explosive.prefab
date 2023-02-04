@@ -129,13 +129,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b2b256be8053c4da71c75f0246df8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAvailable: 1
   Renderer: {fileID: 110862752750205283}
   TimeUntilExplosion: 3
   ExplosionCountdown: 0
   Armed: 0
   DamageRadius: 5
   PassiveColor: {r: 1, g: 1, b: 1, a: 1}
-  ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}
-  PreExplosionColor: {r: 0, g: 0, b: 0, a: 1}
-  PreExplosionColorTime: 0.5
+  ArmedFadeColor: {r: 1, g: 0.52497584, b: 0, a: 1}
+  PreExplosionColor: {r: 1, g: 0, b: 0, a: 1}
+  PreExplosionColorTime: 0.25
   ExplosionEffect: {fileID: 7352423846639781544, guid: bad4d9d0ef5e063478197e953f9c0b6d, type: 3}
