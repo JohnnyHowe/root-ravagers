@@ -16,7 +16,8 @@ public class RootController : MonoBehaviour
 
     public float MaxAngle = 90;
     public float OriginY = 5f;
-
+    public float RootDecayPeriod = 1;
+    private float _timeUntilNextDecay;
     [Header("Boring Things")]
     public float MaxX = 5f;
     public int MaxSearchRootDepth = 100;
@@ -28,6 +29,7 @@ public class RootController : MonoBehaviour
         _leaves = new List<RootNode>();
         _timeUntilNextGrowthSeconds = GrowSpeedSeconds;
         _timeUntilNextOriginSeconds = NewOriginTimeSeconds.RandomInRange();
+        _timeUntilNextDecay = RootDecayPeriod;
     }
 
     void Update()
@@ -37,8 +39,9 @@ public class RootController : MonoBehaviour
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
             if (_timeUntilNextGrowthSeconds <= 0)
             {
-                int leafIndex = (int)Mathf.Min(_leaves.Count - 1, Random.Range(0f, _leaves.Count));
-                _CreateNewNode(_leaves[leafIndex]);
+                List<RootNode> leavesWithOrigins = _GetLeavesWithOrigin();
+                int leafIndex = (int)Mathf.Min(leavesWithOrigins.Count - 1, Random.Range(0f, leavesWithOrigins.Count));
+                _CreateNewNode(leavesWithOrigins[leafIndex]);
                 _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
             }
 
@@ -54,6 +57,7 @@ public class RootController : MonoBehaviour
         {
             _StartNewOrigin();
         }
+        _UpdateDeadRootDecay();
     }
 
     // ===========================================================================================
@@ -166,10 +170,18 @@ public class RootController : MonoBehaviour
 
     private void _RemoveNode(RootNode node)
     {
-        foreach (RootNode child in _GetChildren(node)) {
+        // Remove all references to node from children
+        foreach (RootNode child in _GetChildren(node))
+        {
             child.Parent = null;
         }
-        if (!node.IsOrphan) {
+
+        // Remove from leaves (if in)
+        _leaves.Remove(node);
+
+        // Add parent to leaves
+        if (!node.IsOrphan)
+        {
             if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
         }
     }
@@ -177,8 +189,10 @@ public class RootController : MonoBehaviour
     private List<RootNode> _GetChildren(RootNode parent)
     {
         List<RootNode> children = new List<RootNode>();
-        foreach (RootNode node in _GetAllRootNodes()) {
-            if (parent == node.Parent) {
+        foreach (RootNode node in _GetAllRootNodes())
+        {
+            if (parent == node.Parent)
+            {
                 children.Add(node);
             }
         }
@@ -210,13 +224,41 @@ public class RootController : MonoBehaviour
         return nodes;
     }
 
-    private Vector3 _ClampX(Vector3 position) {
+    private Vector3 _ClampX(Vector3 position)
+    {
         Vector3 p = position;
         p.x = _ClampX(p.x);
         return p;
     }
 
-    private float _ClampX(float unclampedX) {
+    private float _ClampX(float unclampedX)
+    {
         return Mathf.Clamp(unclampedX, -MaxX, MaxX);
+    }
+
+    private List<RootNode> _GetLeavesWithOrigin()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetLeaves())
+        {
+            if (leaf.HasOrigin) nodes.Add(leaf);
+        }
+        return nodes;
+    }
+
+    private void _UpdateDeadRootDecay()
+    {
+        // if enough time has passed
+        _timeUntilNextDecay -= Time.deltaTime;
+        if (_timeUntilNextDecay > 0) return;
+        _timeUntilNextDecay += RootDecayPeriod;
+
+        // Get roots with no origin
+        foreach (List<RootNode> nodes in GetFullRootPaths()) {
+            if (nodes[0].HasOrigin) continue;
+
+            _RemoveNode(nodes[nodes.Count - 1]);
+            _RemoveNode(nodes[0]);
+        }
     }
 }
