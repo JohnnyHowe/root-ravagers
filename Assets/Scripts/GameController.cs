@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public float Nutrients = 1f;
+    public float Score = 0;
     public float NutrientsY = -6f;
     public float SuccSpeed = 0.1f;
     private RootController _rootController;
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
         _rootController.MasterSpeedMultiplier += DifficultyInceaseSpeed * Time.deltaTime;
         Nutrients = Mathf.Max(0, Nutrients - _GetRumberOfRootsStealing() * SuccSpeed * Time.deltaTime);
         if (Nutrients == 0) _gameOver = true;
+
+        if (_gameOver == false) Score += 10f * Time.deltaTime;
     }
 
     private int _GetRumberOfRootsStealing()

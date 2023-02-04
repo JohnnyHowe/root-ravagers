@@ -16,10 +16,12 @@ public class Explosive : PowerUp
     public float PreExplosionColorTime = 0.5f;
     public GameObject ExplosionEffect;
     private RootController _rootController;
+    private GameController _gameController;
 
     void Start()
     {
         _rootController = GameObject.FindObjectOfType<RootController>();
+        _gameController = GameObject.FindObjectOfType<GameController>();
         ExplosionCountdown = TimeUntilExplosion;
     }
 
@@ -50,6 +52,7 @@ public class Explosive : PowerUp
         }
         Instantiate(ExplosionEffect).transform.position = transform.position;
         Destroy(gameObject);
+        _gameController.Score += rootDamageCount * 10;
     }
 
     private void _UpdateColor()
