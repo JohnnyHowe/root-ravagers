@@ -30,7 +30,6 @@ public class RootController : MonoBehaviour
 
     void Update()
     {
-        return;
         if (_leaves.Count > 0)
         {
             _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;

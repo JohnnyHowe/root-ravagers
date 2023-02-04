@@ -50,6 +50,10 @@ public class AntController : MonoBehaviour
 
         if (delta.magnitude < WaypointHitTolerance)
         {
+            if (firstWaypoint.Target != null)
+            {
+                _rootController.DoThing(firstWaypoint.Target, RootAction.Cut);
+            }
             Destroy(firstWaypoint.gameObject);
             _waypoints.Remove(firstWaypoint);
         }
@@ -90,6 +94,7 @@ public class AntController : MonoBehaviour
         if (node != null)
         {
             newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
+            newWaypoint.Target = node;
 
         }
         if (_waypoints.Count > 0)

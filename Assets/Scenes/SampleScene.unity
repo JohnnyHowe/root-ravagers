@@ -329,8 +329,8 @@ MonoBehaviour:
   MaxAngle: 90
   MaxSearchRootDepth: 100
   ZRange:
-    Min: 0
-    Max: 1
+    Min: 4
+    Max: 5
 --- !u!114 &1698704922
 MonoBehaviour:
   m_ObjectHideFlags: 0
