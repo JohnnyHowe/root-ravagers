@@ -134,6 +134,16 @@ public class RootController : MonoBehaviour
         }
     }
 
+    public List<RootNode> _GetLeavesWithOrigin()
+    {
+        List<RootNode> nodes = new List<RootNode>();
+        foreach (RootNode leaf in GetLeaves())
+        {
+            if (leaf.HasOrigin) nodes.Add(leaf);
+        }
+        return nodes;
+    }
+
     // ===========================================================================================
     // Root generation/growth
     // ===========================================================================================
@@ -236,16 +246,6 @@ public class RootController : MonoBehaviour
         return Mathf.Clamp(unclampedX, -MaxX, MaxX);
     }
 
-    private List<RootNode> _GetLeavesWithOrigin()
-    {
-        List<RootNode> nodes = new List<RootNode>();
-        foreach (RootNode leaf in GetLeaves())
-        {
-            if (leaf.HasOrigin) nodes.Add(leaf);
-        }
-        return nodes;
-    }
-
     private void _UpdateDeadRootDecay()
     {
         // if enough time has passed
@@ -254,7 +254,8 @@ public class RootController : MonoBehaviour
         _timeUntilNextDecay += RootDecayPeriod;
 
         // Get roots with no origin
-        foreach (List<RootNode> nodes in GetFullRootPaths()) {
+        foreach (List<RootNode> nodes in GetFullRootPaths())
+        {
             if (nodes[0].HasOrigin) continue;
 
             _RemoveNode(nodes[nodes.Count - 1]);
