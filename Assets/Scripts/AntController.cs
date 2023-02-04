@@ -1,32 +1,25 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class AntController : MonoBehaviour
 {
-    private const float WaypointHitTolerance = 0.1f;
+    public float MaxAttackRange = 3.0f;
     public float CuttingTime = 2.0f;
     public List<AntGroup> AntGroups = new List<AntGroup>();
-
     public Waypoint WaypointPrefab;
-
     public RootController _rootController;
-
-    private List<Waypoint> _waypoints = new List<Waypoint>();
-
     public float Speed = 10f;
 
-    private Waypoint _cutting;
+    private List<Waypoint> _waypoints = new List<Waypoint>();
+    private const float WaypointHitTolerance = 0.1f;
 
-    private float _cuttingTimeRemaining = 0;
-    // Start is called before the first frame update
     void Start()
     {
-        _rootController = GameObject.FindObjectOfType<RootController>();
-
+        _rootController = FindObjectOfType<RootController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         HandleInput();
@@ -35,71 +28,60 @@ public class AntController : MonoBehaviour
 
     private void HandleAntMovingToWaypoints()
     {
+        if (!_waypoints.Any()) { return; }
 
-        Vector3 mousePosition = GetMousePosition();
-        AntGroup closestAnt = GetClosestAnt(mousePosition);
-        if (_cutting != null)
+        var firstWaypoint = _waypoints.First();
+        AntGroup antGroup = GetAntGroup();
+        Vector3 delta = firstWaypoint.transform.position - antGroup.transform.position;
+
+        if (delta.magnitude > WaypointHitTolerance)
         {
-            _cuttingTimeRemaining -= Time.deltaTime;
-            if (_cuttingTimeRemaining < 0)
-            {
-                _rootController.DoThing(_cutting.Target, RootAction.Cut);
-                Destroy(_cutting.gameObject);
-                _waypoints.Remove(_cutting);
-                _cutting = null;
-            }
-            else
-            {
-                closestAnt.transform.position = _cutting.Target.Position + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
-            }
+            // Move towards waypoint
+            Vector3 direction = delta.normalized;
+            antGroup.transform.position += direction * Speed * Time.deltaTime;
         }
         else
         {
-            if (!_waypoints.Any())
+            // Do waypoint action
+            var done = firstWaypoint.Task.PerformAction();
+            if (done)
             {
-                return;
-            }
-            var firstWaypoint = _waypoints.First();
-
-
-            firstWaypoint.Line.positionCount = 2;
-            firstWaypoint.Line.SetPositions(new Vector3[] { firstWaypoint.transform.position, closestAnt.transform.position });
-
-            Vector3 delta = firstWaypoint.transform.position - closestAnt.transform.position;
-            Vector3 direction = delta.normalized;
-
-            closestAnt.transform.position += direction * Speed * Time.deltaTime;
-
-            if (delta.magnitude < WaypointHitTolerance)
-            {
-                if (firstWaypoint.Target != null)
-                {
-                    _cutting = firstWaypoint;
-                    _cuttingTimeRemaining = CuttingTime;
-                } else
-                {
-                    Destroy(firstWaypoint.gameObject);
-                    _waypoints.Remove(firstWaypoint);
-                }
+                Destroy(firstWaypoint.gameObject);
+                _waypoints.Remove(firstWaypoint);
             }
         }
 
-
+        // Make line from ant to to first waypoint
+        firstWaypoint.Line.positionCount = 2;
+        firstWaypoint.Line.SetPositions(new Vector3[] { firstWaypoint.transform.position, antGroup.transform.position });
     }
 
     private void HandleInput()
+    {
+        HandleWaypointReset();
+        HandleMoveCommand();
+        HandleAttackCommand();
+    }
+
+    private void HandleWaypointReset()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _waypoints.ForEach(waypoint => Destroy(waypoint.gameObject));
             _waypoints.Clear();
         }
+    }
 
+    private void HandleMoveCommand()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             OnAntMove();
         }
+    }
 
+    private void HandleAttackCommand()
+    {
         if (Input.GetMouseButtonDown(1))
         {
             OnAntAttack();
@@ -108,31 +90,23 @@ public class AntController : MonoBehaviour
 
     private void OnAntAttack()
     {
-        var node = GetTargetedNode(GetMousePosition());
+        RootNode node = GetClosestNode(GetMousePosition(), MaxAttackRange);
         if (node == null) return;
 
-        var position = node.Position;
-        position.z = transform.position.z;
+        var newWaypoint = CreateWaypoint(node.Position);
 
-        var newWaypoint = Instantiate(WaypointPrefab, position, Quaternion.identity);
         newWaypoint.GetComponent<SpriteRenderer>().color = Color.red;
-        newWaypoint.Target = node;
-
-        if (_waypoints.Count > 0)
-        {
-            var last = _waypoints.Last();
-            newWaypoint.Line.positionCount = 2;
-            newWaypoint.Line.SetPositions(new[] { last.transform.position, newWaypoint.transform.position });
-        }
-        _waypoints.Add(newWaypoint);
-
+        newWaypoint.Task = CreateCuttingAction(node);
     }
 
     private void OnAntMove()
     {
-        Vector3 mousePosition = GetMousePosition();
+        var newWaypoint = CreateWaypoint(GetMousePosition());
+        newWaypoint.Task = CreateWalkingAction();
+    }
 
-        var position = mousePosition;
+    public Waypoint CreateWaypoint(Vector3 position)
+    {
         position.z = transform.position.z;
 
         var newWaypoint = Instantiate(WaypointPrefab, position, Quaternion.identity);
@@ -144,18 +118,53 @@ public class AntController : MonoBehaviour
             newWaypoint.Line.SetPositions(new[] { last.transform.position, newWaypoint.transform.position });
         }
         _waypoints.Add(newWaypoint);
+        return newWaypoint;
     }
 
+    private Task CreateCuttingAction(RootNode node)
+    {
+        Task task = new Task
+        {
+            TimeRemaining = CuttingTime,
+        };
+        Func<bool> action = () =>
+        {
+            if (task.TimeRemaining > 0)
+            {
+                task.TimeRemaining -= Time.deltaTime;
+                var jiggle = Math.Min(WaypointHitTolerance * 0.5f, 0.1f);
+                AntGroup antGroup = GetAntGroup();
+                var position = node.Position;
+                position.z = antGroup.transform.position.z;
+                antGroup.transform.position = position + new Vector3(UnityEngine.Random.Range(-jiggle, jiggle), UnityEngine.Random.Range(-jiggle, jiggle), 0);
+                return false;
+            }
+            else
+            {
+                _rootController.DoThing(node, RootAction.Cut);
+                return true;
+            }
+        };
+
+        task.PerformAction = action;
+        return task;
+    }
+
+    private Task CreateWalkingAction()
+    {
+        return new Task
+        {
+        };
+    }
 
     private Vector3 GetMousePosition()
     {
-        // Get the mouse position in world space
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = transform.position.z;
         return mousePosition;
     }
 
-    private RootNode GetTargetedNode(Vector3 mousePosition)
+    private RootNode GetClosestNode(Vector3 mousePosition, float maxRange = float.PositiveInfinity)
     {
         var nodes = _rootController.GetInteractableNodes();
         float closest = float.PositiveInfinity;
@@ -164,7 +173,7 @@ public class AntController : MonoBehaviour
         foreach (var node in nodes)
         {
             var distance = ((Vector2)(mousePosition - node.Position)).magnitude;
-            if (distance < closest)
+            if (distance < maxRange && distance < closest)
             {
                 closestNode = node;
                 closest = distance;
@@ -173,7 +182,7 @@ public class AntController : MonoBehaviour
         return closestNode;
     }
 
-    private AntGroup GetClosestAnt(Vector3 mousePosition)
+    private AntGroup GetAntGroup()
     {
         return AntGroups.First();
     }

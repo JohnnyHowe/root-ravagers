@@ -9,7 +9,7 @@ public class Waypoint : MonoBehaviour
     public LineRenderer Line;
 
     [NonSerialized]
-    public RootNode Target;
+    public Task Task;
     
     // Start is called before the first frame update
     void Start()
