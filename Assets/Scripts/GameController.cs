@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     private RootController _rootController;
     private PowerUpManager _powerUpManager;
     private bool _gameOver = false;
+    public float DifficultyInceaseSpeed = 1f;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        _rootController.MasterSpeedMultiplier += DifficultyInceaseSpeed * Time.deltaTime;
         Nutrients = Mathf.Max(0, Nutrients - _GetRumberOfRootsStealing() * SuccSpeed * Time.deltaTime);
         if (Nutrients == 0) _gameOver = true;
     }
@@ -25,7 +27,7 @@ public class GameController : MonoBehaviour
     private int _GetRumberOfRootsStealing()
     {
         int count = 0;
-        foreach (RootNode leaf in _rootController._GetLeavesWithOrigin())
+        foreach (RootNode leaf in _rootController.GetLeavesWithOrigin())
         {
             if (leaf.Position.y <= NutrientsY) count++;
         }
