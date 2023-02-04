@@ -96,7 +96,14 @@ public class AntController : MonoBehaviour
     private void OnAntAttack()
     {
         Interactable node = GetClosestNode(GetMousePosition(), MaxAttackRange);
-        if (node == null) return;
+        if (node == null)
+        {
+            if (ItemHeld == null) return;
+
+            var dropWayPoint = CreateWaypoint(GetMousePosition());
+            dropWayPoint.Task = _CreateDropTask(ItemHeld, GetMousePosition());
+            return;
+        }
 
         var newWaypoint = CreateWaypoint(node.GetLocation());
 
@@ -123,6 +130,21 @@ public class AntController : MonoBehaviour
                 newWaypoint.Task = _CreateUseTask(node);
             }
         }
+    }
+
+    private Task _CreateDropTask(Interactable interactable, Vector3 position)
+    {
+        Task task = new Task();
+        task.TypeOfTask = TaskType.Use;
+        task.Position = position;
+        task.Target = interactable;
+        task.PerformAction = () =>
+        {
+            interactable.OnTaskComplete();
+            ItemHeld = null;
+            return true;
+        };
+        return task;
     }
 
     private Task _CreatePickupTask(Interactable interactable)

@@ -59,4 +59,8 @@ public class Explosive : PowerUp
             Renderer.color = PreExplosionColor;
         }
     }
+    
+    public override void OnTaskComplete() {
+        Armed = true;
+    }
 }
