@@ -36,13 +36,24 @@ public class GameOverUI : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
-            inputField.gameObject.SetActive(false);
-            currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
-            currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
-            _persistence.Data.Scores[inputField.text] = (int) _gameController.Score;
-            _persistence.Save();
+            Save();
         }
+    }
+
+    void OnDestroy()
+    {
+        Save();
+    }
+
+    private void Save()
+    {
+        TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
+        inputField.gameObject.SetActive(false);
+        currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
+        currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
+        _persistence.Data.Scores[inputField.text] = (int)_gameController.Score;
+        _persistence.Save();
+
     }
 
     public void OnReplayPress()
@@ -75,7 +86,7 @@ public class GameOverUI : MonoBehaviour
             {
                 highScoreEntryUI.GetChild(3).gameObject.SetActive(false);
             }
-            rank ++;
+            rank++;
         }
     }
 
