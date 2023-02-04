@@ -35,10 +35,11 @@ public class GameOverUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
-            _persistence.Data.Scores[inputField.text] = 10;
             inputField.gameObject.SetActive(false);
             currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);
             currentUserHighScoreEntry.GetChild(1).GetComponent<TextMeshProUGUI>().text = inputField.text;
+            _persistence.Data.Scores[inputField.text] = (int) _gameController.Score;
+            _persistence.Save();
         }
     }
 
@@ -51,13 +52,10 @@ public class GameOverUI : MonoBehaviour
     {
         // Inject current users'
         string currentUserName = "CURRENTUSER1234567890";
-        int currentScore = 10;
+        int currentScore = (int)_gameController.Score;
         highScores[currentUserName] = currentScore;
-        highScores["aa"] = currentScore;
-        highScores["ab"] = currentScore;
-        highScores["ac"] = currentScore;
-
-        foreach (var (name, score) in highScores.OrderBy(a => a.Value))
+        
+        foreach (var (name, score) in highScores.OrderBy(a => -a.Value))
         {
             Transform highScoreEntryUI = _GetNewHighScoreEntry();
             highScoreEntryUI.GetChild(1).GetComponent<TextMeshProUGUI>().text = name;
