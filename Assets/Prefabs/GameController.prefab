@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Nutrients: 100
   Score: 0
-  NutrientsY: -6
+  NutrientsY: -5
   SuccSpeed: 10
   DifficultyInceaseSpeed: 1
   suckSource: {fileID: 705857048327933606}
