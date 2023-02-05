@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RootController : MonoBehaviour
@@ -80,27 +81,7 @@ public class RootController : MonoBehaviour
 
     public List<RootNode> GetAllRootNodes()
     {
-        List<RootNode> nodes = new List<RootNode>();
-        foreach (RootNode leaf in GetLeaves())
-        {
-            RootNode currentNode = leaf;
-            nodes.Add(currentNode);
-
-            int iteration = 0;
-            while (!currentNode.IsOrphan)
-            {
-                iteration++;
-                if (iteration > MaxSearchRootDepth)
-                {
-                    Debug.LogError("Max root search depth exceeded, probably a cycle");
-                    break;
-                }
-
-                currentNode = currentNode.Parent;
-                nodes.Add(currentNode);
-            }
-        }
-        return nodes;
+        return GetFullRootPaths().SelectMany(a => a).ToList();
     }
 
     public List<RootNode> GetLeaves()
@@ -241,6 +222,8 @@ public class RootController : MonoBehaviour
 
     public void RemoveNode(RootNode node)
     {
+        // Remove from leaves (if in)
+        _leaves.Remove(node);
         // Is node even known about?
         List<RootNode> children = _GetChildren(node);
         if (children.Count == 0) return;
@@ -251,8 +234,7 @@ public class RootController : MonoBehaviour
             child.Parent = null;
         }
 
-        // Remove from leaves (if in)
-        _leaves.Remove(node);
+
 
         // Add parent to leaves
         if (!node.IsOrphan)

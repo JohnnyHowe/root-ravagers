@@ -4,6 +4,7 @@ public class PauseMenu : MonoBehaviour
 {
 
     public GameObject pauseMenuUI;
+    public AudioLowPassFilter AudioFilter;
 
     private bool isPaused = true;
 
@@ -33,11 +34,13 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 0f;
         pauseMenuUI.SetActive(true);
+        AudioFilter.enabled = true;
     }
 
     void DeactivateMenu()
     {
         Time.timeScale = 1f;
         pauseMenuUI.SetActive(false);
+        AudioFilter.enabled = false;
     }
 }
