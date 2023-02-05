@@ -245,6 +245,15 @@ public class RootController : MonoBehaviour
     {
         bool removed = false;
 
+        // Add parent to leaves
+        if (!node.IsOrphan)
+        {
+            if (_GetChildren(node.Parent).Count == 1)
+            {
+                if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
+            }
+        }
+
         // Remove from leaves (if in)
         if (_leaves.Remove(node)) removed = true;
 
@@ -255,15 +264,6 @@ public class RootController : MonoBehaviour
             child.Parent = null;
         }
         if (children.Count > 0) removed = true;
-
-        // Add parent to leaves
-        if (!node.IsOrphan)
-        {
-            if (_GetChildren(node.Parent).Count == 1)
-            {
-                if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
-            }
-        }
 
         if (removed) OnNodeRemove.Invoke();
     }

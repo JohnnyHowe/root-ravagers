@@ -83,11 +83,15 @@ public class AntController : MonoBehaviour
         {
             AntWalkSource.Stop();
             // Do waypoint action
-            var done = firstWaypoint.Task.PerformAction();
-            if (done)
+
+            if (!(firstWaypoint.Task.TypeOfTask == TaskType.Cut && firstWaypoint.Task.Target == null))
             {
-                Destroy(firstWaypoint.gameObject);
-                _waypoints.Remove(firstWaypoint);
+                var done = firstWaypoint.Task.PerformAction();
+                if (done)
+                {
+                    Destroy(firstWaypoint.gameObject);
+                    _waypoints.Remove(firstWaypoint);
+                }
             }
         }
 
