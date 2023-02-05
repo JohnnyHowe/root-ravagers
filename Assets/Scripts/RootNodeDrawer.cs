@@ -13,11 +13,13 @@ public class RootNodeDrawer : MonoBehaviour
 
     private RootController _rootController;
     private AntController _antController;
+    private GameController _gameController;
     public float InteractableSize = 0.1f;
     public float TargetInteractableSize = 2;
 
     void Start()
     {
+        _gameController = FindObjectOfType<GameController>();
         _rootController = GetComponent<RootController>();
         _antController = GameObject.FindObjectOfType<AntController>();
         _lineRenderers = new List<LineRenderer>();
@@ -29,7 +31,14 @@ public class RootNodeDrawer : MonoBehaviour
     void Update()
     {
         _DrawRoots();
-        _DrawInteractables();
+        if (_gameController.IsGameOver())
+        {
+            _HideUnusedIneractables(0);
+        }
+        else
+        {
+            _DrawInteractables();
+        }
     }
 
     private void _DrawRoots()
