@@ -47,6 +47,7 @@ public class RootNodeDrawer : MonoBehaviour
         {
             _lineRenderers[i].gameObject.SetActive(false);
         }
+        _HideUnusedRenderers(rootPaths.Count);
     }
 
     private LineRenderer _GetLineRenderer(int i)
@@ -58,23 +59,44 @@ public class RootNodeDrawer : MonoBehaviour
             renderer.transform.parent = RendererPrototype.transform.parent;
             _lineRenderers.Add(renderer);
         }
+        _lineRenderers[i].gameObject.SetActive(true);
         return _lineRenderers[i];
     }
 
     private void _DrawInteractables()
     {
         List<RootNode> interactableNodes = _rootController.GetInteractableNodes();
+        _HideUnusedIneractables(interactableNodes.Count);
         for (int i = 0; i < interactableNodes.Count; i++)
         {
             SpriteRenderer s = _GetInteractableSpriteRenderer(i);
             Vector3 p = interactableNodes[i].Position;
             p.z = 0;
             s.gameObject.transform.SetPositionAndRotation(p, Quaternion.identity);
-            if (_antController.TargetedInteractable == interactableNodes[i]) {
+            if (_antController.TargetedInteractable == interactableNodes[i])
+            {
                 s.gameObject.transform.localScale = Vector3.one * TargetInteractableSize;
-            } else {
+            }
+            else
+            {
                 s.gameObject.transform.localScale = Vector3.one * InteractableSize;
             }
+        }
+    }
+
+    private void _HideUnusedIneractables(int nUsed)
+    {
+        for (int i = nUsed; i < _interactableRenderers.Count; i++)
+        {
+            _interactableRenderers[i].gameObject.SetActive(false);
+        }
+    }
+
+    private void _HideUnusedRenderers(int nUsed)
+    {
+        for (int i = nUsed; i < _lineRenderers.Count; i++)
+        {
+            _lineRenderers[i].gameObject.SetActive(false);
         }
     }
 
@@ -87,6 +109,7 @@ public class RootNodeDrawer : MonoBehaviour
             renderer.transform.parent = InteractablePrototype.transform.parent;
             _interactableRenderers.Add(renderer);
         }
+        _interactableRenderers[i].gameObject.SetActive(true);
         return _interactableRenderers[i];
     }
 }

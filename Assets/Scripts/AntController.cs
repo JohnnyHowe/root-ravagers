@@ -128,7 +128,6 @@ public class AntController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             OnAntAttack();
-            //Debug.Log(ItemThatWillBeHeld);
         }
     }
 
