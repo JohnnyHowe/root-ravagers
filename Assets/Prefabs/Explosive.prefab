@@ -134,7 +134,7 @@ MonoBehaviour:
   TimeUntilExplosion: 3
   ExplosionCountdown: 0
   Armed: 0
-  DamageRadius: 5
+  DamageRadius: 3
   UnArmedColor: {r: 1, g: 1, b: 1, a: 1}
   PassiveColor: {r: 0.9811321, g: 0.43472174, b: 0.23602703, a: 1}
   ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}

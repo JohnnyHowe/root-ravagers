@@ -45,7 +45,7 @@ public class Explosive : PowerUp
         int rootDamageCount = 0;
         foreach (RootNode rootNode in _rootController.GetAllRootNodes())
         {
-            if ((rootNode.Position - transform.position).magnitude < DamageRadius)
+            if (((Vector2)(rootNode.Position - transform.position)).magnitude < DamageRadius)
             {
                 _rootController.RemoveNode(rootNode);
                 rootDamageCount++;
