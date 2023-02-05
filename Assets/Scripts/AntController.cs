@@ -25,6 +25,8 @@ public class AntController : MonoBehaviour
     public Color DropTaskColor = Color.red;
     public Color DefaultTaskColor = Color.white;
 
+    public AudioSource AntWalkSource;
+
     void Start()
     {
         _rootController = FindObjectOfType<RootController>();
@@ -57,7 +59,11 @@ public class AntController : MonoBehaviour
 
     private void HandleAntMovingToWaypoints()
     {
-        if (!_waypoints.Any()) { return; }
+        if (!_waypoints.Any())
+        {
+            AntWalkSource.Stop();
+            return;
+        }
 
         var firstWaypoint = _waypoints.First();
         AntGroup antGroup = GetAntGroup();
@@ -67,12 +73,14 @@ public class AntController : MonoBehaviour
 
         if (delta.magnitude > WaypointHitTolerance)
         {
+            if (!AntWalkSource.isPlaying) AntWalkSource.Play();
             // Move towards waypoint
             Vector3 direction = delta.normalized;
             antGroup.transform.position += direction * Mathf.Clamp(Speed * Time.deltaTime, 0, delta.magnitude);
         }
         else
         {
+            AntWalkSource.Stop();
             // Do waypoint action
             var done = firstWaypoint.Task.PerformAction();
             if (done)
