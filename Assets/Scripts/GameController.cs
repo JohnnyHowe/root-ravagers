@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private bool _gameOver = false;
     public float DifficultyInceaseSpeed = 1f;
     private float _maxNutrients;
+    public float HealthRegenSpeed = 1f;
     public float NutrientsDecimal
     {
         get => Nutrients / _maxNutrients;
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         _rootController.MasterSpeedMultiplier += DifficultyInceaseSpeed * Time.deltaTime;
+        if (!IsGameOver()) Nutrients = Mathf.Min(Nutrients + Time.deltaTime * HealthRegenSpeed, 100);
         Nutrients = Mathf.Max(0, Nutrients - _GetRumberOfRootsStealing() * SuccSpeed * Time.deltaTime);
         if (Nutrients == 0) _gameOver = true;
 

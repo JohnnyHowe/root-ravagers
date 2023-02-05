@@ -51,6 +51,7 @@ MonoBehaviour:
   NutrientsY: -5
   SuccSpeed: 10
   DifficultyInceaseSpeed: 0.05
+  HealthRegenSpeed: 4
   suckSource: {fileID: 705857048327933606}
 --- !u!82 &705857048327933606
 AudioSource:
