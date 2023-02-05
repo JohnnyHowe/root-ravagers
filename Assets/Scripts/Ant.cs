@@ -15,7 +15,7 @@ public class Ant : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         var delta = _antGroup.transform.position - transform.position;
         //var asdf = transform.rotation * Vector3.up;
