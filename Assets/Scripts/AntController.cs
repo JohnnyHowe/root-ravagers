@@ -40,6 +40,7 @@ public class AntController : MonoBehaviour
 
     void Update()
     {
+        if (_gameController.IsGameOver()) return;
         HandleInput();
         HandleAntMovingToWaypoints();
         _UpdateTargetedInteractable();
