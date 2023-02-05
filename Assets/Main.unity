@@ -841,7 +841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7651994295879534447, guid: 60e9ee6e68a7bad4f8f242a430292a9d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1138,6 +1138,10 @@ PrefabInstance:
       propertyPath: Nutrients
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 4874091194275725481, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
+      propertyPath: DifficultyInceaseSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4874091194275725486, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
       propertyPath: m_Name
       value: GameController
@@ -1354,6 +1358,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 703481092}
     m_Modifications:
+    - target: {fileID: 4022806632754339400, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
+      propertyPath: PowerUpSpawnPeriod
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4137595774913872971, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
       propertyPath: m_Name
       value: PowerUpManager
