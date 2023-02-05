@@ -30,11 +30,11 @@ public class PowerUpManager : MonoBehaviour
 
     void Update()
     {
+        _ForgetDeadPowerUps();
         if (_ShouldSpawnPowerUp())
         {
             _SpawnNewPowerUp();
         }
-        _ForgetDeadPowerUps();
     }
 
     private void _ForgetDeadPowerUps()
@@ -49,6 +49,11 @@ public class PowerUpManager : MonoBehaviour
 
     private bool _ShouldSpawnPowerUp()
     {
+        if (_GetValidSpawnPositions().Count == 0) {
+            _timeUntilPowerUpSpawn = PowerUpSpawnPeriod;
+            return false;
+        }
+
         if (_timeUntilPowerUpSpawn < 0)
         {
             _timeUntilPowerUpSpawn += PowerUpSpawnPeriod;
@@ -75,6 +80,27 @@ public class PowerUpManager : MonoBehaviour
 
     private Vector3 GetNextPowerUpSpawnLocation()
     {
-        return SpawnLocationsContainer.GetChild(Random.Range(0, SpawnLocationsContainer.childCount - 1)).position;
+        List<Vector3> locations = _GetValidSpawnPositions();
+        if (locations.Count == 0) return Vector3.zero;
+        return locations[Random.Range(0, locations.Count - 1)];
+    }
+
+    private List<Vector3> _GetValidSpawnPositions()
+    {
+        List<Vector3> locations = new List<Vector3>();
+        foreach (Transform child in SpawnLocationsContainer)
+        {
+            bool powerUpBlocking = false;
+            foreach (PowerUp powerUp in InstantiatedPowerUps)
+            {
+                if (powerUp.GetLocation() == child.position)
+                {
+                    powerUpBlocking = true;
+                    break;
+                }
+            }
+            if (!powerUpBlocking) locations.Add(child.position);
+        }
+        return locations;
     }
 }

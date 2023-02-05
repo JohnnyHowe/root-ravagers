@@ -46,6 +46,7 @@ public class RootNodeDrawer : MonoBehaviour
             positions.Reverse();
             renderer.SetPositions(positions.ToArray());
         }
+        _HideUnusedRenderers(rootPaths.Count);
     }
 
     private LineRenderer _GetLineRenderer(int i)
@@ -57,6 +58,7 @@ public class RootNodeDrawer : MonoBehaviour
             renderer.transform.parent = RendererPrototype.transform.parent;
             _lineRenderers.Add(renderer);
         }
+        _lineRenderers[i].gameObject.SetActive(true);
         return _lineRenderers[i];
     }
 
@@ -86,6 +88,14 @@ public class RootNodeDrawer : MonoBehaviour
         for (int i = nUsed; i < _interactableRenderers.Count; i++)
         {
             _interactableRenderers[i].gameObject.SetActive(false);
+        }
+    }
+
+    private void _HideUnusedRenderers(int nUsed)
+    {
+        for (int i = nUsed; i < _lineRenderers.Count; i++)
+        {
+            _lineRenderers[i].gameObject.SetActive(false);
         }
     }
 

@@ -241,18 +241,15 @@ public class RootController : MonoBehaviour
 
     public void RemoveNode(RootNode node)
     {
-        // Is node even known about?
-        List<RootNode> children = _GetChildren(node);
-        if (children.Count == 0) return;
+        // Remove from leaves (if in)
+        _leaves.Remove(node);
 
         // Remove all references to node from children
+        List<RootNode> children = _GetChildren(node);
         foreach (RootNode child in children)
         {
             child.Parent = null;
         }
-
-        // Remove from leaves (if in)
-        _leaves.Remove(node);
 
         // Add parent to leaves
         if (!node.IsOrphan)
