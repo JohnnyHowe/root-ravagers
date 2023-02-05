@@ -135,8 +135,9 @@ MonoBehaviour:
   ExplosionCountdown: 0
   Armed: 0
   DamageRadius: 5
-  PassiveColor: {r: 1, g: 1, b: 1, a: 1}
-  ArmedFadeColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
-  PreExplosionColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
+  UnArmedColor: {r: 1, g: 1, b: 1, a: 1}
+  PassiveColor: {r: 0.9811321, g: 0.43472174, b: 0.23602703, a: 1}
+  ArmedFadeColor: {r: 1, g: 0, b: 0, a: 1}
+  PreExplosionColor: {r: 1, g: 0, b: 0, a: 1}
   PreExplosionColorTime: 0.25
   ExplosionEffect: {fileID: 7352423846639781544, guid: bad4d9d0ef5e063478197e953f9c0b6d, type: 3}
