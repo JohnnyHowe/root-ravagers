@@ -112,7 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PowerUps:
   - {fileID: 8147839847447665120, guid: a4a19adcb2edca2499c7d43c467c502e, type: 3}
+  InstantiatedPowerUps: []
   SpawnLocationsContainer: {fileID: 5109698974987207551}
+  PowerUpSpawnPeriod: 5
 --- !u!1 &6700407341084255413
 GameObject:
   m_ObjectHideFlags: 0
