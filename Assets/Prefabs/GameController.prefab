@@ -50,7 +50,7 @@ MonoBehaviour:
   Score: 0
   NutrientsY: -5
   SuccSpeed: 10
-  DifficultyInceaseSpeed: 1
+  DifficultyInceaseSpeed: 0.05
   suckSource: {fileID: 705857048327933606}
 --- !u!82 &705857048327933606
 AudioSource:
