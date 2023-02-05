@@ -696,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: MasterSpeedMultiplier
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: OnNodeRemove.m_PersistentCalls.m_Calls.Array.size
@@ -1416,7 +1416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4874091194275725481, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
       propertyPath: Nutrients
-      value: 1e+14
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4874091194275725481, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
       propertyPath: DifficultyInceaseSpeed
@@ -1672,7 +1672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4022806632754339400, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
       propertyPath: PowerUpSpawnPeriod
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4137595774913872971, guid: 8922e9e50d99a3a4f9570fd32cbcb07d, type: 3}
       propertyPath: m_Name
