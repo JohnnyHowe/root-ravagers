@@ -10,7 +10,7 @@ public class AntController : MonoBehaviour
     public List<AntGroup> AntGroups = new List<AntGroup>();
     public Waypoint WaypointPrefab;
     public RootController _rootController;
-    public GameController _gameController;
+    private GameController _gameController;
     public float Speed = 10f;
     //private Interactable _itemHeld = null;
     public Interactable ItemHeld = null;
@@ -32,6 +32,7 @@ public class AntController : MonoBehaviour
     public Color DefaultTaskColor = Color.white;
 
     public AudioSource AntWalkSource;
+    public Vector2 MaxPosition = new Vector2(8, 6);
 
     void Start()
     {
@@ -240,6 +241,8 @@ public class AntController : MonoBehaviour
 
     public Waypoint CreateWaypoint(Vector3 position, TaskType taskType)
     {
+        position.x = Mathf.Clamp(position.x, -MaxPosition.x, MaxPosition.x);
+        position.y = Mathf.Clamp(position.y, -MaxPosition.y, MaxPosition.y);
         position.z = transform.position.z;
 
         var newWaypoint = Instantiate(WaypointPrefab, position, Quaternion.identity);
