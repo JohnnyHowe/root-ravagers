@@ -12,11 +12,15 @@ public class GameController : MonoBehaviour
     private bool _gameOver = false;
     public float DifficultyInceaseSpeed = 1f;
     private float _maxNutrients;
-    public float NutrientsDecimal {
+    public float NutrientsDecimal
+    {
         get => Nutrients / _maxNutrients;
     }
 
-    void Awake() {
+    public AudioSource suckSource;
+
+    void Awake()
+    {
         _maxNutrients = Nutrients;
     }
 
@@ -33,6 +37,28 @@ public class GameController : MonoBehaviour
         if (Nutrients == 0) _gameOver = true;
 
         if (_gameOver == false) Score += 10f * Time.deltaTime;
+
+        _UpdateSound();
+    }
+
+    private void _UpdateSound()
+    {
+        if (IsGameOver())
+        {
+            suckSource.enabled = false;
+            return;
+        }
+
+        int nRootsStealing = _GetRumberOfRootsStealing();
+        if (!suckSource.isPlaying && nRootsStealing > 0) suckSource.Play();
+        if (suckSource.isPlaying && nRootsStealing == 0) suckSource.Stop();
+
+        suckSource.volume = _VolumeCurve(nRootsStealing);
+    }
+
+    private float _VolumeCurve(int nRootsStealing)
+    {
+        return 1 - 1f / (nRootsStealing / 3f + 1);
     }
 
     private int _GetRumberOfRootsStealing()
