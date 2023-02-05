@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5885058079435153724}
   - component: {fileID: 3343180527147341110}
   - component: {fileID: 1827509230415531689}
+  - component: {fileID: 1223931714703487449}
   m_Layer: 0
   m_Name: BackgroundSound
   m_TagString: Untagged
@@ -154,3 +155,17 @@ AudioLowPassFilter:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1223931714703487449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7066365077373680789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c819f37c6d3424e94257a90718fcf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToDisable:
+  - {fileID: 1827509230415531689}

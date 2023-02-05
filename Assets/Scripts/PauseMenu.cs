@@ -15,9 +15,11 @@ public class PauseMenu : MonoBehaviour
         if (!isPaused && Input.GetKeyDown(KeyCode.Escape))
         {
             isPaused = true;
+            AudioFilter.enabled = true;
         } else if (isPaused && Input.anyKeyDown)
         {
             isPaused = false;
+            AudioFilter.enabled = false;
         }
 
         if (isPaused)
@@ -34,13 +36,11 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 0f;
         pauseMenuUI.SetActive(true);
-        AudioFilter.enabled = true;
     }
 
     void DeactivateMenu()
     {
         Time.timeScale = 1f;
         pauseMenuUI.SetActive(false);
-        AudioFilter.enabled = false;
     }
 }
