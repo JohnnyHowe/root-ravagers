@@ -18,26 +18,58 @@ public class Explosive : PowerUp
     public GameObject ExplosionEffect;
     private RootController _rootController;
     private GameController _gameController;
+    public float MoveUpDistance = 5;
+    public float DesiredY;
+    public float MoveUpTime = 0.5f;
+    private float _moveUpTimer;
+    private bool _isReadyForPickup = false;
 
     void Start()
     {
         _rootController = GameObject.FindObjectOfType<RootController>();
         _gameController = GameObject.FindObjectOfType<GameController>();
         ExplosionCountdown = TimeUntilExplosion;
+
+        DesiredY = transform.position.y;
+        _moveUpTimer = MoveUpTime;
+
+        Vector3 p = transform.position;
+        p.y = transform.position.y - MoveUpDistance;
+        transform.position = p;
     }
 
     void Update()
     {
-        IsAvailable = !Armed;
-        _UpdateColor();
-
-        if (!Armed) return;
-        ExplosionCountdown -= Time.deltaTime;
-
-        if (ExplosionCountdown <= 0)
+        if (!_isReadyForPickup)
         {
-            _Explode();
+            IsAvailable = false;
+            _moveUpTimer = Mathf.Max(_moveUpTimer - Time.deltaTime, 0);
+            float t = 1 - (_moveUpTimer / MoveUpTime);
+
+            Vector3 p = transform.position;
+            p.y = Mathf.Lerp(DesiredY - MoveUpDistance, DesiredY, t);
+            transform.position = p;
+
+            if (t == 1) _isReadyForPickup = true;
         }
+        else
+        {
+            IsAvailable = !Armed;
+            _UpdateColor();
+
+            if (!Armed) return;
+            ExplosionCountdown -= Time.deltaTime;
+
+            if (ExplosionCountdown <= 0)
+            {
+                _Explode();
+            }
+        }
+    }
+
+    private float MoveCurve(float t)
+    {
+        return t;
     }
 
     private void _Explode()

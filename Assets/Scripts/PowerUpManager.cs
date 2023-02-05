@@ -26,6 +26,7 @@ public class PowerUpManager : MonoBehaviour
     void Awake()
     {
         _timeUntilPowerUpSpawn = PowerUpSpawnPeriod;
+        _SpawnNewPowerUp();
     }
 
     void Update()
