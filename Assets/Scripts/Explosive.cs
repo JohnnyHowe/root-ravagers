@@ -10,7 +10,8 @@ public class Explosive : PowerUp
     public bool Armed = false;
     public float DamageRadius = 3f;
     [Header("Visuals")]
-    public Color PassiveColor = Color.white;
+    public Color UnArmedColor = Color.white;
+    public Color PassiveColor = Color.yellow;
     public Color ArmedFadeColor = Color.red;
     public Color PreExplosionColor = Color.black;
     public float PreExplosionColorTime = 0.5f;
@@ -57,6 +58,12 @@ public class Explosive : PowerUp
 
     private void _UpdateColor()
     {
+        if (!Armed)
+        {
+            Renderer.color = UnArmedColor;
+            return;
+        }
+
         float t = 1 - Mathf.InverseLerp(PreExplosionColorTime, TimeUntilExplosion, ExplosionCountdown);
 
         if (t < 1)

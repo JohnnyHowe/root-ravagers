@@ -27,6 +27,7 @@ public class RootController : MonoBehaviour
     public FloatRange ZRange = new FloatRange(0, -1);
     private List<RootNode> _leaves;
     public UnityEvent OnNodeRemove;
+    public int MaxNodes = 999999;
 
     void Awake()
     {
@@ -38,40 +39,44 @@ public class RootController : MonoBehaviour
 
     void Update()
     {
-        if (_leaves.Count > 0)
+        List<RootNode> allRootNodesWithOrigin = GetAllNodesWithOrigin();
+        if (allRootNodesWithOrigin.Count < MaxNodes)
         {
-            _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
-            if (_timeUntilNextGrowthSeconds <= 0)
+            if (_leaves.Count > 0)
             {
-                List<RootNode> leavesWithOrigins;
-                if (Random.Range(0f, 1f) < ForkChance)
+                _timeUntilNextGrowthSeconds -= Time.deltaTime * MasterSpeedMultiplier;
+                if (_timeUntilNextGrowthSeconds <= 0)
                 {
-                    leavesWithOrigins = GetAllNodesWithOrigin();
-                }
-                else
-                {
-                    leavesWithOrigins = GetLeavesWithOrigin();
+                    List<RootNode> leavesWithOrigins;
+                    if (Random.Range(0f, 1f) < ForkChance)
+                    {
+                        leavesWithOrigins = GetAllNodesWithOrigin();
+                    }
+                    else
+                    {
+                        leavesWithOrigins = GetLeavesWithOrigin();
+                    }
+
+                    if (leavesWithOrigins.Count > 0)
+                    {
+                        int leafIndex = (int)Mathf.Min(leavesWithOrigins.Count - 1, Random.Range(0f, leavesWithOrigins.Count));
+                        _CreateNewNode(leavesWithOrigins[leafIndex]);
+                        _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
+                    }
                 }
 
-                if (leavesWithOrigins.Count > 0)
+                // New origins?
+                _timeUntilNextOriginSeconds -= Time.deltaTime * MasterSpeedMultiplier;
+                if (_timeUntilNextOriginSeconds <= 0)
                 {
-                    int leafIndex = (int)Mathf.Min(leavesWithOrigins.Count - 1, Random.Range(0f, leavesWithOrigins.Count));
-                    _CreateNewNode(leavesWithOrigins[leafIndex]);
-                    _timeUntilNextGrowthSeconds += GrowSpeedSeconds;
+                    _StartNewOrigin();
+                    _timeUntilNextOriginSeconds += NewOriginTimeSeconds.RandomInRange();
                 }
             }
-
-            // New origins?
-            _timeUntilNextOriginSeconds -= Time.deltaTime * MasterSpeedMultiplier;
-            if (_timeUntilNextOriginSeconds <= 0)
+            else
             {
                 _StartNewOrigin();
-                _timeUntilNextOriginSeconds += NewOriginTimeSeconds.RandomInRange();
             }
-        }
-        else
-        {
-            _StartNewOrigin();
         }
         _UpdateDeadRootDecay();
     }
@@ -226,6 +231,15 @@ public class RootController : MonoBehaviour
     {
         bool removed = false;
 
+        // Add parent to leaves
+        if (!node.IsOrphan)
+        {
+            if (_GetChildren(node.Parent).Count == 1)
+            {
+                if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
+            }
+        }
+
         // Remove from leaves (if in)
         if (_leaves.Remove(node)) removed = true;
 
@@ -236,15 +250,6 @@ public class RootController : MonoBehaviour
             child.Parent = null;
         }
         if (children.Count > 0) removed = true;
-
-        // Add parent to leaves
-        if (!node.IsOrphan)
-        {
-            if (_GetChildren(node.Parent).Count == 1)
-            {
-                if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
-            }
-        }
 
         if (removed) OnNodeRemove.Invoke();
     }
