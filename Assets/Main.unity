@@ -535,6 +535,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
+      propertyPath: MasterSpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: OnNodeRemove.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1054031882}
@@ -1162,6 +1166,10 @@ PrefabInstance:
     - target: {fileID: 4874091194275725480, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874091194275725481, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
+      propertyPath: Nutrients
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4874091194275725486, guid: 9ec2ee5f06c0cdf48b802f4ab0d5fe91, type: 3}
       propertyPath: m_Name

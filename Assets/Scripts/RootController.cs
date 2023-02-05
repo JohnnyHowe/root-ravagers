@@ -88,7 +88,7 @@ public class RootController : MonoBehaviour
 
     public List<RootNode> GetAllRootNodes()
     {
-        return GetFullRootPaths().SelectMany(a => a).ToList();
+        return GetFullRootPaths().SelectMany(a => a).Distinct().ToList();
     }
 
     public List<RootNode> GetLeaves()
