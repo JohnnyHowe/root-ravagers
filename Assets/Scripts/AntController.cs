@@ -12,7 +12,13 @@ public class AntController : MonoBehaviour
     public RootController _rootController;
     public GameController _gameController;
     public float Speed = 10f;
+    //private Interactable _itemHeld = null;
     public Interactable ItemHeld = null;
+    //public Interactable ItemHeld { get {
+    //        if (_itemHeld.)
+    //        return _itemHeld;
+    //    } set { _itemHeld = value } }
+    //= null;
     public Interactable ItemThatWillBeHeld;
     public int NumberOfAnts = 10;
     public Ant AntPrefab;
@@ -70,7 +76,13 @@ public class AntController : MonoBehaviour
         AntGroup antGroup = GetAntGroup();
         Vector3 delta = firstWaypoint.transform.position - antGroup.transform.position;
 
-        ItemHeld?.TryMoveItem(antGroup.transform.position);
+        try
+        {
+            ItemHeld?.TryMoveItem(antGroup.transform.position);
+        } catch (ObjectDisposedException)
+        {
+
+        }
 
         if (delta.magnitude > WaypointHitTolerance)
         {

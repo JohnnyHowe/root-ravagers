@@ -47,6 +47,7 @@ public class GameOverUI : MonoBehaviour
 
     private void Save()
     {
+        if (!currentUserHighScoreEntry) return;
         TMP_InputField inputField = currentUserHighScoreEntry.GetChild(3).GetComponent<TMP_InputField>();
         inputField.gameObject.SetActive(false);
         currentUserHighScoreEntry.GetChild(1).gameObject.SetActive(true);

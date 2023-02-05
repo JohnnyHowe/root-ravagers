@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RootNodeDrawer : MonoBehaviour
@@ -36,15 +37,15 @@ public class RootNodeDrawer : MonoBehaviour
         List<List<RootNode>> rootPaths = _rootController.GetFullRootPaths();
         for (int i = 0; i < rootPaths.Count; i++)
         {
-            List<Vector3> positions = new List<Vector3>();
-            foreach (RootNode node in rootPaths[i])
-            {
-                positions.Add(node.Position);
-            }
+            var positions = rootPaths[i].Select(node => node.Position).Reverse().ToArray();
             LineRenderer renderer = _GetLineRenderer(i);
-            renderer.positionCount = positions.Count;
-            positions.Reverse();
-            renderer.SetPositions(positions.ToArray());
+            renderer.gameObject.SetActive(true);
+            renderer.positionCount = positions.Length;
+            renderer.SetPositions(positions);
+        }
+        for (int i = rootPaths.Count; i < _lineRenderers.Count; i++)
+        {
+            _lineRenderers[i].gameObject.SetActive(false);
         }
         _HideUnusedRenderers(rootPaths.Count);
     }
