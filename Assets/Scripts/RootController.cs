@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RootController : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class RootController : MonoBehaviour
     public int MaxSearchRootDepth = 100;
     public FloatRange ZRange = new FloatRange(0, -1);
     private List<RootNode> _leaves;
+    public UnityEvent OnNodeRemove;
 
     void Awake()
     {
@@ -241,8 +243,10 @@ public class RootController : MonoBehaviour
 
     public void RemoveNode(RootNode node)
     {
+        bool removed = false;
+
         // Remove from leaves (if in)
-        _leaves.Remove(node);
+        if (_leaves.Remove(node)) removed = true;
 
         // Remove all references to node from children
         List<RootNode> children = _GetChildren(node);
@@ -250,6 +254,7 @@ public class RootController : MonoBehaviour
         {
             child.Parent = null;
         }
+        if (children.Count > 0) removed = true;
 
         // Add parent to leaves
         if (!node.IsOrphan)
@@ -259,6 +264,8 @@ public class RootController : MonoBehaviour
                 if (!_leaves.Contains(node.Parent)) _leaves.Add(node.Parent);
             }
         }
+
+        if (removed) OnNodeRemove.Invoke();
     }
 
     private List<RootNode> _GetChildren(RootNode parent)
