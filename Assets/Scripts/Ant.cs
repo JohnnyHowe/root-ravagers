@@ -27,10 +27,10 @@ public class Ant : MonoBehaviour
         //transform.rotation = Quaternion.Euler(a);
         if (fff > Random.Range(20, 120))
         {
-            transform.Rotate(0, 0, -Random.Range(100, 10000) * Time.deltaTime);
+            transform.Rotate(0, 0, -Random.Range(100, 10000) * Time.fixedDeltaTime);
         } else if (fff < -Random.Range(20, 120))
         {
-            transform.Rotate(0, 0, Random.Range(100, 10000) * Time.deltaTime);
+            transform.Rotate(0, 0, Random.Range(100, 10000) * Time.fixedDeltaTime);
         }
 
         //transform.LookAt(_antGroup.transform.position, Vector3.up);
@@ -39,6 +39,6 @@ public class Ant : MonoBehaviour
 
         float movement = System.Math.Min(Speed, distance/DistanceMultiplyer + MinSpeed);
 
-        transform.position += transform.up * movement * Time.deltaTime;
+        transform.position += transform.up * movement * Time.fixedDeltaTime;
     }
 }
