@@ -534,6 +534,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
+      propertyPath: NewOriginTimeSeconds.Max
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
+      propertyPath: NewOriginTimeSeconds.Min
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532580641460111156, guid: 94e65b3d2031f23438829d670d6b9366, type: 3}
       propertyPath: OnNodeRemove.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1054031882}
@@ -626,7 +634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1114114578, guid: ff6969cd20556e84e8ff830571583c3c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -19.3632
+      value: -19.36322
       objectReference: {fileID: 0}
     - target: {fileID: 2622520485710416156, guid: ff6969cd20556e84e8ff830571583c3c, type: 3}
       propertyPath: m_AnchorMax.y

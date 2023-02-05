@@ -337,7 +337,11 @@ MonoBehaviour:
   m_text: 'Protect your colony''s food stores from the invasion of aggressive plant
     roots.
 
-    Chew through roots or arm your ants with explosives and deploy them'
+    Chew through roots or arm your ants with explosives and deploy them.
+
+
+    ALT+F4
+    to quit.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55caf5c7b609d9c49b128e1247490b74, type: 2}
   m_sharedMaterial: {fileID: -3487025150001292793, guid: 55caf5c7b609d9c49b128e1247490b74, type: 2}

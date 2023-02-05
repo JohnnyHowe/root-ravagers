@@ -14,6 +14,7 @@ public class RootController : MonoBehaviour
     public FloatRange NodeDistance = new FloatRange(0.2f, 1);
     public float ForkChance = 0.2f;
 
+    public int StartingOrigins = 2;
     public FloatRange NewOriginTimeSeconds = new FloatRange(1, 5);
     private float _timeUntilNextOriginSeconds;
 
@@ -35,6 +36,11 @@ public class RootController : MonoBehaviour
         _timeUntilNextGrowthSeconds = GrowSpeedSeconds;
         _timeUntilNextOriginSeconds = NewOriginTimeSeconds.RandomInRange();
         _timeUntilNextDecay = RootDecayPeriod;
+
+        for (var i = 0; i < StartingOrigins; i++)
+        {
+            _StartNewOrigin();
+        }
     }
 
     void Update()
