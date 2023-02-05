@@ -125,6 +125,7 @@ public class AntController : MonoBehaviour
         {
             _waypoints.ForEach(waypoint => Destroy(waypoint.gameObject));
             _waypoints.Clear();
+            ItemThatWillBeHeld = ItemHeld;
         }
     }
 
